@@ -1,0 +1,29 @@
+# Types
+type User {
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+  profileImage: String
+  active: Boolean!
+}
+
+# Enums
+enum Role {
+  ADMIN
+  COLLABORATOR
+  ARTISAN
+}
+
+# Inputs
+input UserInput {
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+  profileImage: String
+}
