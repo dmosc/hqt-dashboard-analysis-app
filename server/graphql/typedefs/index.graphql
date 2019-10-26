@@ -1,0 +1,19 @@
+# import * from "user.graphql"
+# import * from "origin.graphql"
+
+# Directives
+directive @auth(roles: [Role]) on FIELD_DEFINITION
+
+type Query {
+  # User
+  user(id: ID!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Origin
+  origin(id: ID!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+}
+
+type Mutation {
+  # User
+  user(user: UserInput!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  #Origin
+  origin(origin: OriginInput!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+}

@@ -1,17 +1,38 @@
 {
-  "name": "hqt-dashboard",
-  "version": "0.1.0",
+  "name": "hqt-dashboard-analysis-app",
+  "version": "1.0.0",
+  "description": "Analytics Dashboard for NGO Huellas Que Trascienden.",
+  "repository": "https://github.com/oscardavidrm/hqt-dashboard-analysis-app.git",
+  "author": "oscardavidrm <oscar@blockchainacademy.mx>",
+  "license": "MIT",
   "private": true,
-  "dependencies": {
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
-  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently -r \"yarn start:server\" \"yarn start:client\"",
+    "start:client": "react-scripts start",
+    "start:server": "NODE_PATH=src/ nodemon server/index.js --exec babel-node",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "apollo-server-express": "^2.9.7",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^14.5.8",
+    "graphql-import": "^0.7.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.7",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^1.19.4",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "3.2.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.13",
+    "@rescripts/rescript-env": "^0.0.11",
+    "@rescripts/utilities": "^0.0.6"
   }
 }

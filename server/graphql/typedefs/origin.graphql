@@ -1,0 +1,14 @@
+# Types
+type Origin {
+  municipality: String!
+  community: String!
+  group: Int!
+  code: String!
+}
+
+# Inputs
+input OriginInput {
+  municipality: String!
+  community: String!
+  group: Int!
+}
