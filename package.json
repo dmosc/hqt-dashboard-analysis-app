@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently -r \"yarn start:server\" \"yarn start:client\"",
-    "start:client": "react-scripts start",
+    "start:client": "NODE_PATH=src/ react-scripts start",
     "start:server": "NODE_PATH=src/ nodemon server/index.js --exec babel-node",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -19,6 +19,7 @@
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
+    "antd": "^3.25.0",
     "apollo-server-express": "^2.9.7",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.0.0",
@@ -31,8 +32,14 @@
     "mongoose-unique-validator": "^2.0.3",
     "nodemon": "^1.19.4",
     "react": "^16.11.0",
+    "react-beautiful-dnd": "^12.0.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
+    "react-loadable": "^5.5.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "react-topbar-progress-indicator": "^4.0.2",
+    "recharts": "^1.8.5",
+    "styled-components": "^4.4.1"
   },
   "eslintConfig": {
     "extends": "react-app"
