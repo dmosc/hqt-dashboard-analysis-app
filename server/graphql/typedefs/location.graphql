@@ -1,0 +1,11 @@
+# Types
+type Location {
+  name: String!
+  address: String!
+}
+
+# Inputs
+input LocationInput {
+  name: String!
+  address: String!
+}

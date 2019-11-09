@@ -12,7 +12,8 @@ const ProductSchema = new Schema({
   totalDaysToProduce: {type: Number, required: true},
   retailPrice: {type: Number, required: true},
   seller: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-  origin: {type: Schema.Types.ObjectId, ref: 'Origin', required: true}
+  origin: {type: Schema.Types.ObjectId, ref: 'Origin', required: true},
+  location: {type: Schema.Types.ObjectId, ref: 'Location', required: true}
 });
 
 export default model('Product', ProductSchema);
