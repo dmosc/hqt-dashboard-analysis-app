@@ -18,6 +18,9 @@ const ContentContainer = styled(Content)`
   }
   
   display: ${props => (props.display ? props.display : null)}
+  justify-content: ${props =>
+    props.justifyContent ? props.justifyContent : null}
+  align-items: ${props => (props.alignItems ? props.alignItems : null)}
   flex-wrap: wrap;
   width: ${props => (props.width ? props.width : 'fit-content')}
   height: ${props => (props.height ? props.height : 'fit-content')}

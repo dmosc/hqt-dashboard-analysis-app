@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently -r \"yarn start:server\" \"yarn start:client\"",
-    "start:client": "NODE_PATH=src/ react-scripts start",
+    "start:client": "react-scripts start",
     "start:server": "NODE_PATH=src/ nodemon server/index.js --exec babel-node",
     "build": "react-scripts build",
     "test": "react-scripts test",
