@@ -4,6 +4,7 @@ import authenticated from '../../middleware/authenticated';
 const originMutations = {
   origin: authenticated(async (_, args) => {
     const origin = new Origin({...args.origin});
+
     const {municipality, community, group} = origin;
     origin.code = [
       municipality.substring(0, 2).toUpperCase(),

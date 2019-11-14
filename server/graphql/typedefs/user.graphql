@@ -10,6 +10,18 @@ type User {
   active: Boolean!
 }
 
+type AuthenticatedUser {
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+  profileImage: String
+  active: Boolean!
+  token: String!
+}
+
 # Enums
 enum Role {
   ADMIN
@@ -18,6 +30,19 @@ enum Role {
 }
 
 # Inputs
+input UserSignup {
+  username: String!
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+}
+
+input UserLogin {
+  usernameOrEmail: String!
+  password: String!
+}
+
 input UserInput {
   firstName: String!
   lastName: String!

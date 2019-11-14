@@ -13,6 +13,8 @@ type Query {
 
 type Mutation {
   # User
+  signup(user: UserSignup!): String!
+  login(user: UserLogin!): String!
   user(user: UserInput!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   #Origin
   origin(origin: OriginInput!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])

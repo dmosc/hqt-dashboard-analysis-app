@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-import products from '../enums/products';
+import products from '../enums/product';
 
 const ProductSchema = new Schema({
   uniqueId: {type: String, required: true, unique: true},
@@ -13,7 +13,7 @@ const ProductSchema = new Schema({
   retailPrice: {type: Number, required: true},
   seller: {type: Schema.Types.ObjectId, ref: 'User', required: true},
   origin: {type: Schema.Types.ObjectId, ref: 'Origin', required: true},
-  location: {type: Schema.Types.ObjectId, ref: 'Location', required: true}
+  location: {type: Schema.Types.ObjectId, ref: 'Location', required: true},
 });
 
 export default model('Product', ProductSchema);
