@@ -10,12 +10,13 @@ import {Row, Col} from 'antd';
 class DashboardAnalytics extends Component {
   state = {};
   render() {
-    const {collapsed, onCollapse} = this.props;
+    const {collapsed, onCollapse, user} = this.props;
     return (
       <Layout
         collapsed={collapsed}
         onCollapse={onCollapse}
         page="Data Analytics"
+        user={user}
       >
         <Row>
           <Col span={12}>

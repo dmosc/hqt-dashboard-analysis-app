@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
+import jwt from 'jsonwebtoken';
+import cookie from 'react-cookies';
 import Loadable from 'react-loadable';
 import TopBarProgress from 'react-topbar-progress-indicator';
+import toast from 'toast-me';
+import {withApollo} from 'react-apollo';
+import {JWT_SECRET} from 'config';
+import {GET_USER_DATA} from './graphql/queries';
 
 TopBarProgress.config({
   barColors: {
@@ -12,70 +18,99 @@ TopBarProgress.config({
     '0.6': '#0000FF',
     '0.75': '#2E2B5F',
     '0.9': '#8B00FF',
-    '1.0': '#8B00FF'
+    '1.0': '#8B00FF',
   },
-  shadowBlur: 5
+  shadowBlur: 5,
 });
 
 /* webpackChunkName: "DashboardInventory" */
 const DashboardInventory = Loadable({
   loader: () => import('./components/dashboard-inventory'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardHome" */
 const DashboardHome = Loadable({
   loader: () => import('./components/dashboard-home'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardTransactions" */
 const DashboardTransactions = Loadable({
   loader: () => import('./components/dashboard-transactions'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardAnalytics" */
 const DashboardAnalytics = Loadable({
   loader: () => import('./components/dashboard-analytics'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardArtisans" */
 const DashboardArtisans = Loadable({
   loader: () => import('./components/dashboard-artisans'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardEvents" */
 const DashboardEvents = Loadable({
   loader: () => import('./components/dashboard-events'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 /* webpackChunkName: "DashboardResources" */
 const DashboardResources = Loadable({
   loader: () => import('./components/dashboard-resources'),
-  loading: TopBarProgress
+  loading: TopBarProgress,
 });
 
 class Admin extends Component {
   state = {
-    collapsed: false
+    user: {},
+    collapsed: false,
   };
 
   onCollapse = collapsed => {
     this.setState({collapsed});
   };
 
+  async componentDidMount() {
+    const {client} = this.props;
+    const token = cookie.load('token');
+
+    const {userId: id} = jwt.verify(token, JWT_SECRET);
+    try {
+      const {
+        data: {user},
+      } = await client.mutate({
+        mutation: GET_USER_DATA,
+        variables: {id},
+      });
+
+      this.setState({user});
+      toast(`Welcome back ${user.firstName}!`, 'success', {
+        duration: 3000,
+        closeable: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   render() {
-    const {collapsed} = this.state;
+    const {user, collapsed} = this.state;
+
     return (
       <Switch>
         <Route
           path="/admin/home"
           render={() => (
-            <DashboardHome collapsed={collapsed} onCollapse={this.onCollapse} />
+            <DashboardHome
+              collapsed={collapsed}
+              onCollapse={this.onCollapse}
+              user={user}
+            />
           )}
         />
         <Route
@@ -84,6 +119,7 @@ class Admin extends Component {
             <DashboardInventory
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -93,6 +129,7 @@ class Admin extends Component {
             <DashboardTransactions
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -102,6 +139,7 @@ class Admin extends Component {
             <DashboardAnalytics
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -111,6 +149,7 @@ class Admin extends Component {
             <DashboardArtisans
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -120,6 +159,7 @@ class Admin extends Component {
             <DashboardEvents
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -129,6 +169,7 @@ class Admin extends Component {
             <DashboardResources
               collapsed={collapsed}
               onCollapse={this.onCollapse}
+              user={user}
             />
           )}
         />
@@ -138,4 +179,4 @@ class Admin extends Component {
   }
 }
 
-export default Admin;
+export default withApollo(Admin);

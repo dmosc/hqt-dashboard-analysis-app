@@ -1,19 +1,32 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import {Icon, PageHeader} from 'antd';
-import {NavbarContainer, MenuContainer} from './elements';
+import {Icon, PageHeader, Menu} from 'antd';
+import cookie from 'react-cookies';
+import {NavbarContainer} from './elements';
 import {MenuItem} from 'components/common/menu/elements';
 
+const handleLogout = () => {
+  cookie.remove('token', {path: '/'});
+  window.location.reload();
+};
+
 const NavBar = props => {
-  const {page, history} = props;
+  const {page, history, user} = props;
   return (
     <NavbarContainer>
-      <MenuContainer mode="horizontal">
-        <MenuItem key="1">
+      <Menu
+        mode="horizontal"
+        style={{display: 'flex', justifyContent: 'flex-end'}}
+      >
+        <MenuItem key="1" disabled={true}>
           <Icon type="user" />
-          <span>Test user</span>
+          <span>{user.firstName}</span>
         </MenuItem>
-      </MenuContainer>
+        <MenuItem key="2" onClick={handleLogout}>
+          <Icon type="logout" />
+          <span>Logout</span>
+        </MenuItem>
+      </Menu>
       <PageHeader
         style={{
           margin: 0,

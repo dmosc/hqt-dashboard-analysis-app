@@ -8,9 +8,14 @@ const {Meta} = Card;
 class DashboardArtisans extends Component {
   state = {};
   render() {
-    const {collapsed, onCollapse} = this.props;
+    const {collapsed, onCollapse, user} = this.props;
     return (
-      <Layout collapsed={collapsed} onCollapse={onCollapse} page="Artisans">
+      <Layout
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        page="Artisans"
+        user={user}
+      >
         <Container display="flex">
           {[1, 2, 3, 4, 5, 5, 6, 6].map(artisan => (
             <Card

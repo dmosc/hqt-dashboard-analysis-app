@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Layout, Menu} from 'antd';
+import {Layout} from 'antd';
 
 const {Header} = Layout;
 
@@ -9,8 +9,4 @@ const NavbarContainer = styled(Header)`
   margin-bottom: 35px;
 `;
 
-const MenuContainer = styled(Menu)`
-  display: flex;
-  jusfity-content: flex-end;
-`;
-export {NavbarContainer, MenuContainer};
+export {NavbarContainer};

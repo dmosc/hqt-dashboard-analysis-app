@@ -5,11 +5,15 @@ import Container from 'components/common/container';
 class DashboardResources extends Component {
   state = {};
   render() {
-    console.log(process.env.PUBLIC_URL);
-    const {collapsed, onCollapse} = this.props;
+    const {collapsed, onCollapse, user} = this.props;
     return (
-      <Layout collapsed={collapsed} onCollapse={onCollapse} page="Resources">
-        <Container display="flex" justifyContent="center" alignItems="center">
+      <Layout
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        page="Resources"
+        user={user}
+      >
+        <Container display="flex" justifycontent="center" alignitems="center">
           <img
             src="/static/images/section_under_construction.png"
             alt="Under Construction!"

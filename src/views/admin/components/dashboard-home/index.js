@@ -5,10 +5,15 @@ import Container from 'components/common/container';
 class DashboardHome extends Component {
   state = {};
   render() {
-    const {collapsed, onCollapse} = this.props;
+    const {user, collapsed, onCollapse} = this.props;
     return (
-      <Layout collapsed={collapsed} onCollapse={onCollapse} page="Home">
-        <Container display="flex" justifyContent="center" alignItems="center">
+      <Layout
+        user={user}
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        page="Home"
+      >
+        <Container display="flex" justifycontent="center" alignitems="center">
           <img
             src="/static/images/section_under_construction.png"
             alt="Under Construction!"

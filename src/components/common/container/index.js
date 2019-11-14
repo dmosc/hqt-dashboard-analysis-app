@@ -6,16 +6,16 @@ const Container = ({
   width,
   height,
   display,
-  justifyContent,
-  alignItems
+  justifycontent,
+  alignitems
 }) => {
   return (
     <ContentContainer
       width={width}
       height={height}
       display={display}
-      justifyContent={justifyContent}
-      alignItems={alignItems}
+      justifycontent={justifycontent}
+      alignitems={alignitems}
     >
       {children}
     </ContentContainer>

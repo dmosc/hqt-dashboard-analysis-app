@@ -7,9 +7,14 @@ import {Row, Col} from 'antd';
 class DashboardTransactions extends Component {
   state = {};
   render() {
-    const {collapsed, onCollapse} = this.props;
+    const {collapsed, onCollapse, user} = this.props;
     return (
-      <Layout collapsed={collapsed} onCollapse={onCollapse} page="Transactions">
+      <Layout
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        page="Transactions"
+        user={user}
+      >
         <Row gutter={{xs: 8, sm: 16, md: 24}} style={{width: '97%'}}>
           <Col span={12}>
             <Container width="100%">Resultados del día!</Container>

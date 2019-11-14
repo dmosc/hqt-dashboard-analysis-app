@@ -101,10 +101,15 @@ class DashboardInventory extends Component {
 
   render() {
     const {info} = this.state;
-    const {collapsed, onCollapse} = this.props;
+    const {collapsed, onCollapse, user} = this.props;
 
     return (
-      <Layout collapsed={collapsed} onCollapse={onCollapse} page="Inventory">
+      <Layout
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        page="Inventory"
+        user={user}
+      >
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Container>
             <Row type="flex" gutter={[40]} justify="center">
