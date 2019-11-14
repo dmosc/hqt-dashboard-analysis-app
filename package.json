@@ -10,6 +10,8 @@
     "start": "concurrently -r \"yarn start:server\" \"yarn start:client\"",
     "start:client": "react-scripts start",
     "start:server": "NODE_PATH=src/ nodemon server/index.js --exec babel-node",
+    "db:seed": "yarn run db:drop && babel-node server/database/seed.js",
+    "db:drop": "babel-node server/database/drop.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -20,9 +22,11 @@
     "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
     "antd": "^3.25.0",
+    "apollo-boost": "^0.4.4",
     "apollo-server-express": "^2.9.7",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^14.5.8",
@@ -32,14 +36,18 @@
     "mongoose-unique-validator": "^2.0.3",
     "nodemon": "^1.19.4",
     "react": "^16.11.0",
+    "react-apollo": "^3.1.3",
     "react-beautiful-dnd": "^12.0.0",
+    "react-cookies": "^0.1.1",
     "react-dom": "^16.11.0",
     "react-loadable": "^5.5.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-topbar-progress-indicator": "^4.0.2",
     "recharts": "^1.8.5",
-    "styled-components": "^4.4.1"
+    "signale": "^1.4.0",
+    "styled-components": "^4.4.1",
+    "toast-me": "^1.2.4"
   },
   "eslintConfig": {
     "extends": "react-app"
