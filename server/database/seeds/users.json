@@ -1,0 +1,35 @@
+[
+  {
+    "_id": "5db3f2b2196fba51e7351140",
+    "active": true,
+    "firstName": "Oscar David",
+    "lastName": "Rodríguez Moscosa",
+    "email": "oscardavidrodriguezm@gmail.com",
+    "username": "oscardavidrm",
+    "password": "$2a$10$nURicwk5NgE9xYrhdH2NcuIK8.zpoIGTrrQhz8EQ9Ayb5HCZG/UwC",
+    "role": "ADMIN",
+    "__v": 0
+  },
+  {
+    "_id": "5db6133047d55ea13b27390a",
+    "active": true,
+    "firstName": "Roger",
+    "lastName": "Vázquez Tuz",
+    "email": "revazqueztuz@gmail.com",
+    "username": "rvazqueztuz",
+    "password": "$2a$10$oUM55z.8yIjnmc0zGqs8yue3z7y3mB/rRKgd9Kb6vMbaDMDie2tW6",
+    "role": "ADMIN",
+    "__v": 0
+  },
+  {
+    "_id": "5dc8f9eb62175071c96f4b15",
+    "role": "COLLABORATOR",
+    "active": true,
+    "username": "fresita04",
+    "email": "a01197340@itesm.mx",
+    "password": "$2a$10$jzM2C0q9Jqyxf8T9qtRFL.aIlVc0LjEryTQMmbhXvcjYuyxxHPUkS",
+    "firstName": "María Fernanda",
+    "lastName": "De León Gómez",
+    "__v": 0
+  }
+]
