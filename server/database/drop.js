@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import {User, Product, Origin, Location} from './models';
 import {dropper} from '../config/loggers';
-import {MONGO_DB_URI_TEST} from '../config';
+import {MONGO_DB_LOCAL_URI} from '../config/index';
+
 
 const drop = async () => {
-  await mongoose.connect(MONGO_DB_URI_TEST, {
+  await mongoose.connect(MONGO_DB_LOCAL_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
