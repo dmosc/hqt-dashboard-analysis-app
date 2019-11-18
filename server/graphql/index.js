@@ -8,7 +8,7 @@ const typeDefs = importSchema(path.join(__dirname, './typedefs/index.graphql'));
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req, res}) => ({req, res})
+  context: ({req, res}) => ({req, res}),
 });
 
 server.applyMiddleware({app});

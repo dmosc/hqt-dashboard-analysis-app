@@ -1,5 +1,12 @@
 # import * from "user.graphql"
+# import * from "artisan.graphql"
 # import * from "origin.graphql"
+# import * from "location.graphql"
+# import * from "product.graphql"
+# import * from "garment.graphql"
+
+# Scalars
+scalar Date
 
 # Directives
 directive @auth(roles: [Role]) on FIELD_DEFINITION
@@ -7,15 +14,28 @@ directive @auth(roles: [Role]) on FIELD_DEFINITION
 type Query {
   # User
   user(id: ID!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Artisan
+  artisan(id: ID!): Artisan # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  artisans(filters: ArtisanFilters!): [Artisan!]! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Origin
   origin(id: ID!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  origins(filters: OriginFilters!): [Origin!]! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Location
+  location(id: ID!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  locations(filters: LocationFilters!): [Location!]! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
 }
 
 type Mutation {
   # User
-  signup(user: UserSignup!): String!
-  login(user: UserLogin!): String!
-  user(user: UserInput!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
-  #Origin
+  register(user: UserRegister!): String! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Artisan
+  artisan(artisan: ArtisanRegister!): Artisan # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  login(user: UserLogin!): String! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Origin
   origin(origin: OriginInput!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Location
+  location(location: LocationInput!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  #Product
+  product(product: ProductInput!): Product
+  garment(garment: GarmentInput!): Product
 }

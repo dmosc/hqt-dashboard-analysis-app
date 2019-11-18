@@ -1,5 +1,6 @@
 # Types
 type User {
+  id: ID!
   firstName: String!
   lastName: String!
   username: String!
@@ -11,6 +12,7 @@ type User {
 }
 
 type AuthenticatedUser {
+  id: ID!
   firstName: String!
   lastName: String!
   username: String!
@@ -30,10 +32,11 @@ enum Role {
 }
 
 # Inputs
-input UserSignup {
+input UserRegister {
   username: String!
   email: String!
   password: String!
+  role: Role!
   firstName: String!
   lastName: String!
 }

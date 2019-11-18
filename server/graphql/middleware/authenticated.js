@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import {JWT_SECRET} from '../../config';
 import {AuthenticationError} from 'apollo-server-errors';
 
-const authenticated = next => (_, args, {req: {headers}}) => {
+const authenticated = next => (_, args, {req: {headers}, res}) => {
   const authentication = headers.authentication;
 
   if (authentication) {

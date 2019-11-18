@@ -1,5 +1,6 @@
 # Types
 type Location {
+  id: ID!
   name: String!
   address: String!
 }
@@ -8,4 +9,8 @@ type Location {
 input LocationInput {
   name: String!
   address: String!
+}
+
+input LocationFilters {
+  limit: Int
 }

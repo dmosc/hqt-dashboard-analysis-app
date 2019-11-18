@@ -1,0 +1,29 @@
+# Types
+type Artisan {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+  profileImage: String
+  active: Boolean!
+  code: String!
+  origin: Origin!
+  products: [Product!]!
+}
+
+# Inputs
+input ArtisanRegister {
+  username: String!
+  email: String!
+  password: String!
+  origin: ID!
+  firstName: String!
+  lastName: String!
+}
+
+input ArtisanFilters {
+  limit: Int
+}

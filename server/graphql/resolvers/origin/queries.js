@@ -8,7 +8,13 @@ const originQueries = {
 
     if (!origin) throw new ApolloError('Origin not found');
     else return origin;
-  }
+  },
+  origins: async (_, {filters: {limit}}) => {
+    const origins = await Origin.find({}).limit(limit || 10);
+
+    if (!origins) throw new ApolloError('No Origins registered!');
+    else return origins;
+  },
 };
 
 export default originQueries;

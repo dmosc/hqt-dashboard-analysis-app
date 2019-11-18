@@ -9,8 +9,10 @@ const originMutations = {
     origin.code = [
       municipality.substring(0, 2).toUpperCase(),
       community.substring(0, 2).toUpperCase(),
-      group
+      group,
     ].join('');
+    origin.municipality = municipality.toUpperCase();
+    origin.community = community.toUpperCase();
 
     try {
       await origin.save();
@@ -18,7 +20,7 @@ const originMutations = {
     } catch (e) {
       return e;
     }
-  })
+  }),
 };
 
 export default originMutations;

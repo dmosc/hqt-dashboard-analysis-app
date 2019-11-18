@@ -1,6 +1,6 @@
 const products = [
-  'T-SHIRT',
-  'SWEATER',
+  'CA',
+  'TEN',
   'JACKET',
   'COAT',
   'JEANS',
@@ -22,7 +22,7 @@ const products = [
   'STOCKINGS',
   'SUN-HAT',
   'WOOL-HAT',
-  'SCARF'
+  'SCARF',
 ];
 
 export default products;

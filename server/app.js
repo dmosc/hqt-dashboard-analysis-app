@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import routes from './routes';
 
 const app = express();
@@ -6,6 +7,7 @@ const app = express();
 //Static
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
 
 //Routes

@@ -1,0 +1,31 @@
+# Types
+type Garment {
+  id: ID!
+  code: String!
+  productName: String!
+  productType: String!
+  dateReceived: Date!
+  dateSold: Date
+  retailPrice: Float!
+  seller: ID
+  artisan: ID!
+  origin: ID!
+  location: ID!
+  weight: Float!
+  workforceCost: Float!
+  totalDaysToProduce: Int!
+}
+
+# Inputs
+input GarmentInput {
+  productName: String!
+  productType: String!
+  dateReceived: Date!
+  artisan: ID!
+  origin: ID!
+  location: ID!
+  weight: Float!
+  workforceCost: Float!
+  totalDaysToProduce: Int!
+  rawMaterialsPrice: Int!
+}

@@ -1,0 +1,25 @@
+# Types
+type Product {
+  id: ID!
+  code: String!
+  productName: String!
+  productType: String!
+  dateReceived: Date!
+  dateSold: Date
+  retailPrice: Float!
+  seller: ID
+  artisan: ID!
+  origin: ID!
+  location: ID!
+}
+
+# Inputs
+input ProductInput {
+  productName: String!
+  productType: String!
+  dateReceived: Date!
+  retailPrice: Float!
+  artisan: ID!
+  origin: ID!
+  location: ID!
+}

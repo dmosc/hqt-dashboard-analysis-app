@@ -1,5 +1,6 @@
 # Types
 type Origin {
+  id: ID!
   municipality: String!
   community: String!
   group: Int!
@@ -11,4 +12,8 @@ input OriginInput {
   municipality: String!
   community: String!
   group: Int!
+}
+
+input OriginFilters {
+  limit: Int
 }
