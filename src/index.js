@@ -2,18 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {preloadReady} from 'react-loadable';
+import cookie from 'react-cookies';
 import AuthProvider from 'components/providers/withAuth/provider';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {ApolloProvider} from 'react-apollo';
-import ApolloClient from 'apollo-boost';
+import {createHttpLink} from 'apollo-link-http';
+import {setContext} from 'apollo-link-context';
+import ApolloClient from 'apollo-client';
 import {InMemoryCache} from 'apollo-cache-inmemory';
-import {LOCAL_SERVER_URI, SERVER_URI} from 'config/index';
+import {LOCAL_SERVER_URI, SERVER_URI} from 'config';
+
+const link = createHttpLink({
+  uri: SERVER_URI,
+});
+
+const authLink = setContext((_, {headers}) => {
+  const token = cookie.load('token');
+  return {
+    headers: {
+      ...headers,
+      authentication: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: SERVER_URI,
-  cache: new InMemoryCache()
+  link: authLink.concat(link),
+  cache: new InMemoryCache(),
 });
 
 window.onload = async () => {
