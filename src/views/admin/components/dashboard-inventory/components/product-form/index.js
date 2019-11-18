@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
 import {Form, Icon, Input, InputNumber, Select, Button, DatePicker} from 'antd';
-import {GARMENT_REGISTER} from './graphql/mutations';
+import {PRODUCT_REGISTER} from './graphql/mutations';
 
 const {Option} = Select;
 
-class GarmentForm extends Component {
+class ProductForm extends Component {
   state = {
     loading: false,
   };
@@ -18,44 +18,31 @@ class GarmentForm extends Component {
     form.validateFields(
       async (
         e,
-        {
-          productName,
-          productType,
-          dateReceived,
-          artisan,
-          location,
-          weight,
-          rawMaterialsPrice,
-          workforceCost,
-          totalDaysToProduce,
-        }
+        {productName, productType, dateReceived, retailPrice, artisan, location}
       ) => {
         if (!e) {
           const [artisanId, originId] = artisan.split(':');
 
           try {
             const {
-              data: {garment},
+              data: {product},
             } = await client.mutate({
-              mutation: GARMENT_REGISTER,
+              mutation: PRODUCT_REGISTER,
               variables: {
-                garment: {
+                product: {
                   productName,
                   productType,
                   dateReceived,
+                  retailPrice,
                   artisan: artisanId,
                   origin: originId,
                   location,
-                  weight,
-                  rawMaterialsPrice,
-                  workforceCost,
-                  totalDaysToProduce,
                 },
               },
             });
 
             this.setState({loading: false});
-            toast(`New garment registered: ${garment.code}`, {
+            toast(`New product registered: ${product.code}`, {
               duration: 3000,
               closeable: true,
             });
@@ -105,56 +92,14 @@ class GarmentForm extends Component {
           })(<DatePicker placeholder="Date received" />)}
         </Form.Item>
         <Form.Item>
-          {form.getFieldDecorator('weight', {
-            rules: [{required: true, message: 'Garment weight is required!'}],
+          {form.getFieldDecorator('retailPrice', {
+            rules: [{required: true, message: 'A retail price is required!'}],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="Garment weight in grams"
+              placeholder="$ Retail price"
               min={0}
               step={0.1}
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('rawMaterialsPrice', {
-            rules: [
-              {required: true, message: 'Raw materials costs is required!'},
-            ],
-          })(
-            <InputNumber
-              style={{width: '100%'}}
-              placeholder="$ Raw materials costs in MXN"
-              min={0}
-              step={0.1}
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('workforceCost', {
-            rules: [
-              {required: true, message: 'Current workforce is required!'},
-            ],
-          })(
-            <InputNumber
-              style={{width: '100%'}}
-              placeholder="Current workforce cost in MXN/HR"
-              min={0}
-              step={0.5}
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('totalDaysToProduce', {
-            rules: [
-              {required: true, message: 'Total days to produce is required!'},
-            ],
-          })(
-            <InputNumber
-              style={{width: '100%'}}
-              placeholder="Total days of work registered"
-              min={1}
-              step={1}
             />
           )}
         </Form.Item>
@@ -205,4 +150,4 @@ class GarmentForm extends Component {
   }
 }
 
-export default withApollo(GarmentForm);
+export default withApollo(ProductForm);

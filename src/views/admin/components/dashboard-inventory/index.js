@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
-import {Row} from 'antd';
+import {withApollo} from 'react-apollo';
+import {Link} from 'react-router-dom';
+import {Form, Row} from 'antd';
 import {DragDropContext} from 'react-beautiful-dnd';
+import toast from 'toast-me';
 import Layout from 'components/layout/admin';
 import Container from 'components/common/container';
 import Column from './components/column';
+import ProductForm from './components/product-form';
+import GarmentForm from './components/garment-form';
+import {GET_ARTISANS, GET_LOCATIONS} from './graphql/queries';
 
 const data = {
   tasks: {
@@ -16,30 +22,69 @@ const data = {
     'task-9': {id: 'task-9', content: 'TASK TEST'},
     'task-10': {id: 'task-10', content: 'TASK TEST'},
     'task-11': {id: 'task-11', content: 'TASK TEST'},
-    'task-12': {id: 'task-12', content: 'TASK TEST'}
+    'task-12': {id: 'task-12', content: 'TASK TEST'},
   },
   columns: {
     'col-1': {
       id: 'col-1',
       title: 'Production',
-      taskIds: ['task-4', 'task-5']
+      taskIds: ['task-4', 'task-5'],
     },
     'col-2': {
       id: 'col-2',
       title: 'Stock',
-      taskIds: ['task-1', 'task-2', 'task-3']
+      taskIds: ['task-1', 'task-2', 'task-3'],
     },
     'col-3': {
       id: 'col-3',
       title: 'Dispatched',
-      taskIds: ['task-11', 'task-12']
-    }
+      taskIds: ['task-11', 'task-12'],
+    },
   },
-  columnOrder: ['col-1', 'col-2', 'col-3']
+  columnOrder: ['col-1', 'col-2', 'col-3'],
 };
 
 class DashboardInventory extends Component {
-  state = {info: data};
+  state = {
+    info: data,
+    form: 'product',
+    artisans: [],
+    locations: [],
+  };
+
+  componentDidMount = async () => {
+    const {client} = this.props;
+
+    try {
+      const [
+        {
+          data: {artisans},
+        },
+        {
+          data: {locations},
+        },
+      ] = await Promise.all([
+        client.query({
+          query: GET_ARTISANS,
+          variables: {
+            filters: {limit: 10},
+          },
+        }),
+        client.query({
+          query: GET_LOCATIONS,
+          variables: {
+            filters: {limit: 10},
+          },
+        }),
+      ]);
+
+      this.setState({artisans, locations});
+    } catch (e) {
+      toast(e, 'error', {duration: 3000, closeable: true});
+    }
+  };
+
+  handleFormType = form => this.setState({form});
 
   onDragEnd = data => {
     const {info} = this.state;
@@ -65,8 +110,8 @@ class DashboardInventory extends Component {
         ...info,
         columns: {
           ...info.columns,
-          [newColumn.id]: newColumn
-        }
+          [newColumn.id]: newColumn,
+        },
       };
 
       this.setState({info: newInfo});
@@ -78,12 +123,12 @@ class DashboardInventory extends Component {
 
       const newStart = {
         ...start,
-        taskIds: startTaskIds
+        taskIds: startTaskIds,
       };
 
       const newEnd = {
         ...end,
-        taskIds: endTaskIds
+        taskIds: endTaskIds,
       };
 
       const newInfo = {
@@ -91,8 +136,8 @@ class DashboardInventory extends Component {
         columns: {
           ...info.columns,
           [newStart.id]: newStart,
-          [newEnd.id]: newEnd
-        }
+          [newEnd.id]: newEnd,
+        },
       };
 
       this.setState({info: newInfo});
@@ -100,8 +145,11 @@ class DashboardInventory extends Component {
   };
 
   render() {
-    const {info} = this.state;
+    const {info, form, artisans, locations} = this.state;
     const {collapsed, onCollapse, user} = this.props;
+
+    const ProductRegisterForm = Form.create({name: 'product'})(ProductForm);
+    const GarmentRegisterForm = Form.create({name: 'garment'})(GarmentForm);
 
     return (
       <Layout
@@ -111,7 +159,7 @@ class DashboardInventory extends Component {
         user={user}
       >
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Container>
+          <Container width="75%">
             <Row type="flex" gutter={[40]} justify="center">
               {info.columnOrder.map(columnId => {
                 const column = info.columns[columnId];
@@ -122,10 +170,28 @@ class DashboardInventory extends Component {
             </Row>
           </Container>
         </DragDropContext>
-        <Container width="250px">Registrar un nuevo producto</Container>
+        <Container
+          title={`${form === 'product' ? 'Product' : 'Garment'}`}
+          width="25%"
+        >
+          {form === 'product' ? (
+            <ProductRegisterForm artisans={artisans} locations={locations} />
+          ) : (
+            <GarmentRegisterForm artisans={artisans} locations={locations} />
+          )}
+          {form === 'product' ? (
+            <Link to="#" onClick={() => this.handleFormType('garment')}>
+              Register a Garment
+            </Link>
+          ) : (
+            <Link to="#" onClick={() => this.handleFormType('product')}>
+              Register a Product
+            </Link>
+          )}
+        </Container>
       </Layout>
     );
   }
 }
 
-export default DashboardInventory;
+export default withApollo(DashboardInventory);

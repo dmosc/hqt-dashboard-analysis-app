@@ -9,14 +9,12 @@ const ContentContainer = styled(Content)`
   border-radius: 5px;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
   background-color: #ffffff;
-  
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   ::-webkit-scrollbar {
     display: none;
   }
-  
   display: ${props => (props.display ? props.display : null)}
   justify-content: ${props =>
     props.justifycontent ? props.justifycontent : null}
@@ -30,4 +28,9 @@ const ContentContainer = styled(Content)`
   }
 `;
 
-export {ContentContainer};
+const TitleContainer = styled.h1`
+  text-transform: uppercase;
+  font-weight: bold;
+`;
+
+export {ContentContainer, TitleContainer};

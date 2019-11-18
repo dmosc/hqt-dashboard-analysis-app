@@ -6,10 +6,10 @@ const TaskContainer = styled.div`
   justify-content: flex-start;
   background-color: ${props => (props.isDragging ? '#614ad3' : '#fdfdff')};
   color: ${props => (props.isDragging ? '#ffffff' : null)};
-  font-size: 1rem;
+  font-size: 0.8vw;
   border-radius: 5px;
   padding: 20px;
-  margin: 10px 20px;
+  margin-bottom: 10px;
   width: inherit;
   max-width: inherit;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);

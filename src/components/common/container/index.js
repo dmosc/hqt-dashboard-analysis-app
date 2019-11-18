@@ -1,13 +1,14 @@
 import React from 'react';
-import {ContentContainer} from './elements';
+import {ContentContainer, TitleContainer} from './elements';
 
 const Container = ({
   children,
+  title,
   width,
   height,
   display,
   justifycontent,
-  alignitems
+  alignitems,
 }) => {
   return (
     <ContentContainer
@@ -17,6 +18,7 @@ const Container = ({
       justifycontent={justifycontent}
       alignitems={alignitems}
     >
+      {title && <TitleContainer>{title}</TitleContainer>}
       {children}
     </ContentContainer>
   );

@@ -22,7 +22,11 @@ const NavBar = props => {
           <Icon type="user" />
           <span>{user.firstName}</span>
         </MenuItem>
-        <MenuItem key="2" onClick={handleLogout}>
+        <MenuItem onClick={() => window.location.reload()} key="2">
+          <Icon type="reload" />
+          <span>Reload</span>
+        </MenuItem>
+        <MenuItem key="3" onClick={handleLogout}>
           <Icon type="logout" />
           <span>Logout</span>
         </MenuItem>
@@ -30,7 +34,7 @@ const NavBar = props => {
       <PageHeader
         style={{
           margin: 0,
-          padding: '10px 20px'
+          padding: '10px 20px',
         }}
         onBack={() => history.goBack()}
         title={page}

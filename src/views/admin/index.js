@@ -23,15 +23,21 @@ TopBarProgress.config({
   shadowBlur: 5,
 });
 
+/* webpackChunkName: "DashboardHome" */
+const DashboardHome = Loadable({
+  loader: () => import('./components/dashboard-home'),
+  loading: TopBarProgress,
+});
+
 /* webpackChunkName: "DashboardInventory" */
 const DashboardInventory = Loadable({
   loader: () => import('./components/dashboard-inventory'),
   loading: TopBarProgress,
 });
 
-/* webpackChunkName: "DashboardHome" */
-const DashboardHome = Loadable({
-  loader: () => import('./components/dashboard-home'),
+/* webpackChunkName: "DashboardRegistry" */
+const DashboardRegistry = Loadable({
+  loader: () => import('./components/dashboard-registry'),
   loading: TopBarProgress,
 });
 
@@ -117,6 +123,16 @@ class Admin extends Component {
           path="/admin/inventory"
           render={() => (
             <DashboardInventory
+              collapsed={collapsed}
+              onCollapse={this.onCollapse}
+              user={user}
+            />
+          )}
+        />
+        <Route
+          path="/admin/registry"
+          render={() => (
+            <DashboardRegistry
               collapsed={collapsed}
               onCollapse={this.onCollapse}
               user={user}

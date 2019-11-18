@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const ColumnContainer = styled.div`
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -14,9 +15,8 @@ const TaskList = styled.div`
   justify-content: flex-start;
   max-height: 60vh;
   min-height: 60vh;
-  max-width: 40vh;
-  min-width: 40vh;
-  padding: 10px 10px 10px 0px;
+  width: 100%;
+  padding: 20px;
 
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -30,7 +30,7 @@ const TaskList = styled.div`
 `;
 
 const ColumnTitle = styled.p`
-  font-size: 20px;
+  font-size: 1.2vw;
   margin: 0px;
   border-bottom: 1px solid grey;
   width: 100%;

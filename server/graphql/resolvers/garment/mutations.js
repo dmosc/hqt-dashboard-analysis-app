@@ -9,28 +9,28 @@ const garmentMutations = {
 
     if (!artisan) throw new Error('Artisan does not exists!');
 
-    const {weight, workforceCost, totalDaysToProduce, garmentType} = garment;
+    const {weight, workforceCost, totalDaysToProduce, productType} = garment;
     const {rawMaterialsPrice} = args.garment;
 
-    const garmentionPrice =
+    const productionPrice =
       (totalDaysToProduce / 24) * workforceCost + weight * rawMaterialsPrice;
 
     const retailPrice =
-      garmentionPrice +
-      (garmentionPrice <= 200
+      productionPrice +
+      (productionPrice <= 200
         ? 100
-        : garmentionPrice <= 600
+        : productionPrice <= 600
         ? 150
-        : garmentionPrice <= 1000
+        : productionPrice <= 1000
         ? 170
         : 220);
 
     delete garment.rawMaterialsPrice;
-    garment.garmentionPrice = garmentionPrice;
+    garment.productionPrice = productionPrice;
     garment.retailPrice = retailPrice;
-    garment.code = artisan.code.toString() + '-' + garmentType.toString();
+    garment.code = artisan.code.toString() + '-' + productType.toString();
 
-    artisan.garments.push(garment._id);
+    artisan.products.push(garment._id);
 
     try {
       await garment.save();
