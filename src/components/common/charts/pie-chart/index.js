@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {PieChart as PChart, Pie, Cell} from 'recharts';
-
-const data = [
-  {name: 'Group A', value: 400},
-  {name: 'Group B', value: 300},
-  {name: 'Group C', value: 300},
-  {name: 'Group D', value: 200}
-];
+import {PieChart as PChart, Pie, Cell, Tooltip} from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -18,7 +11,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -38,29 +30,46 @@ const renderCustomizedLabel = ({
 };
 
 class PieChart extends Component {
-  static jsfiddleUrl = 'https://jsfiddle.net/alidingling/c9pL8k61/';
+  state = {
+    data: [],
+  };
+
+  componentDidMount = () => {
+    const {data: oldData} = this.props;
+
+    const data = Object.keys(oldData).map(key => ({
+      name: key,
+      value: oldData[key],
+    }));
+
+    this.setState({data});
+  };
 
   render() {
+    const {data} = this.state;
+
     return (
       <PChart
-        width={400}
-        height={400}
+        width={200}
+        height={200}
         margin={{top: 0, right: 0, left: 0, bottom: 0}}
       >
         <Pie
           data={data}
-          cx={200}
-          cy={200}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={150}
+          outerRadius={100}
           fill="#8884d8"
           dataKey="value"
         >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          {data.map((entry, i) => (
+            <Cell
+              key={`cell-${i}`}
+              fill={entry.name === 'ins' ? 'green' : 'red'}
+            />
           ))}
         </Pie>
+        <Tooltip />
       </PChart>
     );
   }

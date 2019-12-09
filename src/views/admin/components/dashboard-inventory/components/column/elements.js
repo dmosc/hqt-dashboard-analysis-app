@@ -36,8 +36,9 @@ const ColumnTitle = styled.p`
   width: 100%;
 
   :hover {
-    border-bottom: 1px solid #614ad3;
-    color: #614ad3;
+    border-bottom: 1px solid #1890ff;
+    color: #1890ff;
+    cursor: context-menu;
   }
 `;
 

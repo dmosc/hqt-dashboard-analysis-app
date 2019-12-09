@@ -22,27 +22,29 @@ class ProductForm extends Component {
       ) => {
         if (!e) {
           const [artisanId, originId] = artisan.split(':');
+          const product = {
+            productName,
+            productType,
+            dateReceived,
+            retailPrice,
+            artisan: artisanId,
+            origin: originId,
+          };
+
+          if (location) product.location = location;
 
           try {
             const {
-              data: {product},
+              data: {product: newProduct},
             } = await client.mutate({
               mutation: PRODUCT_REGISTER,
               variables: {
-                product: {
-                  productName,
-                  productType,
-                  dateReceived,
-                  retailPrice,
-                  artisan: artisanId,
-                  origin: originId,
-                  location,
-                },
+                product,
               },
             });
 
             this.setState({loading: false});
-            toast(`New product registered: ${product.code}`, {
+            toast(`New product registered: ${newProduct.code}`, {
               duration: 3000,
               closeable: true,
             });
@@ -61,7 +63,7 @@ class ProductForm extends Component {
   };
 
   render() {
-    const {form, artisans, locations} = this.props;
+    const {form, artisans, locations, productTypes} = this.props;
     const {loading} = this.state;
 
     return (
@@ -80,10 +82,13 @@ class ProductForm extends Component {
           {form.getFieldDecorator('productType', {
             rules: [{required: true, message: 'Product type is required!'}],
           })(
-            <Input
-              prefix={<Icon type="home" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Type of product"
-            />
+            <Select placeholder="Product Type">
+              {productTypes.map(({id, name, code}, i) => (
+                <Option key={i} value={id}>
+                  {`${code} : ${name}`}
+                </Option>
+              ))}
+            </Select>
           )}
         </Form.Item>
         <Form.Item>
@@ -126,6 +131,9 @@ class ProductForm extends Component {
             ],
           })(
             <Select placeholder="Location">
+              <Option key={-1} value={0}>
+                None
+              </Option>
               {locations.map(({id, name}, i) => (
                 <Option key={i} value={id}>
                   {`${name}`}

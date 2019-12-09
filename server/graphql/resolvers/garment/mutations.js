@@ -1,4 +1,4 @@
-import {Artisan, Garment} from '../../../database/models';
+import {Artisan, Garment, ProductType} from '../../../database/models';
 import authenticated from '../../middleware/authenticated';
 
 const garmentMutations = {
@@ -6,10 +6,14 @@ const garmentMutations = {
     const garment = new Garment({...args.garment});
 
     const artisan = await Artisan.findById(garment.artisan);
+    const productType = await ProductType.findById(garment.productType).select(
+      '_id code'
+    );
 
     if (!artisan) throw new Error('Artisan does not exists!');
+    if (!productType) throw new Error('Product Type does not exists!');
 
-    const {weight, workforceCost, totalDaysToProduce, productType} = garment;
+    const {weight, workforceCost, totalDaysToProduce} = garment;
     const {rawMaterialsPrice} = args.garment;
 
     const productionPrice =
@@ -28,7 +32,7 @@ const garmentMutations = {
     delete garment.rawMaterialsPrice;
     garment.productionPrice = productionPrice;
     garment.retailPrice = retailPrice;
-    garment.code = artisan.code.toString() + '-' + productType.toString();
+    garment.code = artisan.code.toString() + '-' + productType.code.toString();
 
     artisan.products.push(garment._id);
 

@@ -1,0 +1,47 @@
+type Transaction {
+  id: ID!
+  type: Type!
+  paymentMethod: PaymentMethod!
+  name: String!
+  description: String!
+  amount: Float!
+  date: Date!
+  product: ID
+}
+
+type TransactionResults {
+  total: Float!
+  ins: Int!
+  outs: Int!
+}
+
+# Enums
+enum Type {
+  IN
+  OUT
+}
+
+enum PaymentMethod {
+  CASH
+  IZETTLE
+  CLIP
+  OTHER
+}
+
+input TransactionInput {
+  type: Type!
+  paymentMethod: PaymentMethod!
+  name: String!
+  description: String!
+  amount: Float!
+  date: Date!
+  product: ID
+}
+
+input TransactionFilters {
+  limit: Int!
+}
+
+input TransactionResultsFilters {
+  days: Int!
+}

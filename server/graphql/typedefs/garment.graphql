@@ -10,7 +10,7 @@ type Garment {
   seller: ID
   artisan: ID!
   origin: ID!
-  location: ID!
+  location: ID
   weight: Float!
   workforceCost: Float!
   totalDaysToProduce: Int!
@@ -23,7 +23,7 @@ input GarmentInput {
   dateReceived: Date!
   artisan: ID!
   origin: ID!
-  location: ID!
+  location: ID
   weight: Float!
   workforceCost: Float!
   totalDaysToProduce: Int!

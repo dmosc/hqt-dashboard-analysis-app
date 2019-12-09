@@ -4,13 +4,34 @@ type Product {
   code: String!
   productName: String!
   productType: String!
+  paymentMethod: String!
   dateReceived: Date!
   dateSold: Date
   retailPrice: Float!
   seller: ID
   artisan: ID!
   origin: ID!
-  location: ID!
+  location: ID
+}
+
+type ProductInventory {
+  id: ID!
+  code: String!
+  productName: String!
+  productType: String!
+  dateReceived: Date!
+  dateSold: Date
+  retailPrice: Float!
+  seller: User
+  artisan: Artisan!
+  origin: Origin!
+  location: Location
+}
+
+type Inventory {
+  production: [ProductInventory!]
+  stock: [ProductInventory!]
+  dispatched: [ProductInventory!]
 }
 
 # Inputs
@@ -21,5 +42,21 @@ input ProductInput {
   retailPrice: Float!
   artisan: ID!
   origin: ID!
+  location: ID
+}
+
+input ProductSellInput {
+  id: ID!
+  paymentMethod: String!
+  seller: String!
+  dateSold: Date!
+}
+
+input ProductReceiveInput {
+  id: ID!
   location: ID!
+}
+
+input ProductFilters {
+  limit: Int
 }

@@ -32,30 +32,32 @@ class GarmentForm extends Component {
       ) => {
         if (!e) {
           const [artisanId, originId] = artisan.split(':');
+          const garment = {
+            productName,
+            productType,
+            dateReceived,
+            artisan: artisanId,
+            origin: originId,
+            weight,
+            rawMaterialsPrice,
+            workforceCost,
+            totalDaysToProduce,
+          };
+
+          if (location) garment.location = location;
 
           try {
             const {
-              data: {garment},
+              data: {garment: newGarment},
             } = await client.mutate({
               mutation: GARMENT_REGISTER,
               variables: {
-                garment: {
-                  productName,
-                  productType,
-                  dateReceived,
-                  artisan: artisanId,
-                  origin: originId,
-                  location,
-                  weight,
-                  rawMaterialsPrice,
-                  workforceCost,
-                  totalDaysToProduce,
-                },
+                garment,
               },
             });
 
             this.setState({loading: false});
-            toast(`New garment registered: ${garment.code}`, {
+            toast(`New garment registered: ${newGarment.code}`, {
               duration: 3000,
               closeable: true,
             });
@@ -74,11 +76,11 @@ class GarmentForm extends Component {
   };
 
   render() {
-    const {form, artisans, locations} = this.props;
+    const {form, artisans, locations, productTypes} = this.props;
     const {loading} = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit} className="product-form">
+      <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {form.getFieldDecorator('productName', {
             rules: [{required: true, message: 'Name is required!'}],
@@ -93,10 +95,13 @@ class GarmentForm extends Component {
           {form.getFieldDecorator('productType', {
             rules: [{required: true, message: 'Product type is required!'}],
           })(
-            <Input
-              prefix={<Icon type="home" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Type of product"
-            />
+            <Select placeholder="Product Type">
+              {productTypes.map(({id, name, code}, i) => (
+                <Option key={i} value={id}>
+                  {`${code} : ${name}`}
+                </Option>
+              ))}
+            </Select>
           )}
         </Form.Item>
         <Form.Item>
@@ -181,6 +186,9 @@ class GarmentForm extends Component {
             ],
           })(
             <Select placeholder="Location">
+              <Option key={-1} value={0}>
+                None
+              </Option>
               {locations.map(({id, name}, i) => (
                 <Option key={i} value={id}>
                   {`${name}`}
@@ -193,7 +201,6 @@ class GarmentForm extends Component {
           <Button
             type="primary"
             htmlType="submit"
-            className="location-form-button"
             icon="save"
             loading={loading}
           >

@@ -15,12 +15,20 @@ import locationQueries from './location/queries';
 import locationMutations from './location/mutations';
 
 //Product
-// import productQueries from './location/queries';
+import productQueries from './product/queries';
 import productMutations from './product/mutations';
 
 //Garment
-// import productQueries from './location/queries';
+// import productQueries from './garment/queries';
 import garmentMutations from './garment/mutations';
+
+//ProductType
+import productTypeQueries from './productType/queries';
+import productTypeMutations from './productType/mutations';
+
+//Transaction
+import transactionQueries from './transaction/queries';
+import transactionMutations from './transaction/mutations';
 
 const resolvers = {
   Query: {
@@ -28,6 +36,9 @@ const resolvers = {
     ...artisanQueries,
     ...originQueries,
     ...locationQueries,
+    ...productQueries,
+    ...productTypeQueries,
+    ...transactionQueries,
   },
   Mutation: {
     ...userMutations,
@@ -36,6 +47,8 @@ const resolvers = {
     ...locationMutations,
     ...productMutations,
     ...garmentMutations,
+    ...productTypeMutations,
+    ...transactionMutations,
   },
 };
 

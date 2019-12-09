@@ -4,7 +4,7 @@ import {Col} from 'antd';
 const TaskContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  background-color: ${props => (props.isDragging ? '#614ad3' : '#fdfdff')};
+  background-color: ${props => (props.isDragging ? '#1890ff' : '#fdfdff')};
   color: ${props => (props.isDragging ? '#ffffff' : null)};
   font-size: 0.8vw;
   border-radius: 5px;

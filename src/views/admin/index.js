@@ -81,12 +81,12 @@ class Admin extends Component {
     this.setState({collapsed});
   };
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     const {client} = this.props;
-    const token = cookie.load('token');
 
-    const {userId: id} = jwt.verify(token, JWT_SECRET);
     try {
+      const token = cookie.load('token');
+      const {userId: id} = jwt.verify(token, JWT_SECRET);
       const {
         data: {user},
       } = await client.mutate({
@@ -100,9 +100,10 @@ class Admin extends Component {
         closeable: true,
       });
     } catch (e) {
-      console.log(e);
+      cookie.remove('token', {path: '/'});
+      window.location.reload();
     }
-  }
+  };
 
   render() {
     const {user, collapsed} = this.state;

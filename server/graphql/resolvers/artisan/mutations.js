@@ -10,12 +10,12 @@ const artisanMutations = {
       if (!code) throw new Error('Origin does not exists!');
 
       artisan.code = code + artisan.firstName.toUpperCase().split(' ')[0];
-      artisan.password = hash(args.artisan.password, 10);
+      artisan.password = hash(args.artisan.password || '', 10);
       artisan.username = args.artisan.username.toLowerCase().trim();
-      artisan.email = artisan.email
-        ? args.artisan.email.toLowerCase().trim()
-        : delete artisan.email;
       artisan.role = 'ARTISAN';
+
+      if (!artisan.email) artisan.email = `${artisan.username}@gmail.com`;
+      else artisan.email = args.artisan.email.toLowerCase().trim();
 
       await artisan.save();
 

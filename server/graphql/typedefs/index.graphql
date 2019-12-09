@@ -5,6 +5,7 @@
 # import * from "product.graphql"
 # import * from "garment.graphql"
 # import * from "productType.graphql"
+# import * from "transaction.graphql"
 
 # Scalars
 scalar Date
@@ -25,9 +26,17 @@ type Query {
   # Location
   location(id: ID!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   locations(filters: LocationFilters!): [Location!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Product
+  product(id: ID!): Product # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  products(filters: ProductFilters!): [Product!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  inventory: Inventory! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # ProductType
   productType(id: ID!): ProductType # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   productTypes(filters: ProductTypeFilters!): [ProductType!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Transaction
+  transaction(id: ID!): Transaction # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  transactions(filters: TransactionFilters!): [Transaction!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  results(filters: TransactionResultsFilters!): TransactionResults! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
 }
 
 type Mutation {
@@ -40,9 +49,13 @@ type Mutation {
   origin(origin: OriginInput!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Location
   location(location: LocationInput!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
-  #Product
+  # Product
   product(product: ProductInput!): Product
   garment(garment: GarmentInput!): Product
+  sell(product: ProductSellInput!): Product
+  receive(product: ProductReceiveInput!): Product
   # ProductType
   productType(productType: ProductTypeInput!): ProductType
+  # Transaction
+  transaction(transaction: TransactionInput!): Transaction
 }

@@ -24,6 +24,17 @@ type AuthenticatedUser {
   token: String!
 }
 
+type Seller {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String!
+  role: Role!
+  profileImage: String
+  active: Boolean!
+}
+
 # Enums
 enum Role {
   ADMIN
@@ -36,7 +47,7 @@ input UserRegister {
   username: String!
   email: String!
   password: String!
-  role: Role!
+  role: Role
   firstName: String!
   lastName: String!
 }
@@ -54,4 +65,8 @@ input UserInput {
   password: String!
   role: Role!
   profileImage: String
+}
+
+input SellerFilters {
+  limit: Int
 }

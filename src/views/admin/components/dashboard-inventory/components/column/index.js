@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Droppable} from 'react-beautiful-dnd';
+import {Tooltip} from 'antd';
 import Task from '../task';
 import {ColumnContainer, ColumnTitle, TaskList} from './elements';
 
@@ -9,7 +10,9 @@ class Column extends Component {
     const {column, tasks} = this.props;
     return (
       <ColumnContainer>
-        <ColumnTitle>{column.title}</ColumnTitle>
+        <Tooltip title={column.description}>
+          <ColumnTitle>{column.title}</ColumnTitle>
+        </Tooltip>
         <Droppable droppableId={column.id}>
           {(provided, snapshot) => (
             <TaskList

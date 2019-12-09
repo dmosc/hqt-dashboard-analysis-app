@@ -4,3 +4,5 @@ export {default as Origin} from './origin';
 export {default as Location} from './location';
 export {default as Product} from './product';
 export {default as Garment} from './garment';
+export {default as ProductType} from './productType';
+export {default as Transaction} from './transaction';

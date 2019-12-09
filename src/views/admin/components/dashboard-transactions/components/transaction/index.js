@@ -1,16 +1,27 @@
 import React from 'react';
-import {TransactionCardContainer} from './elements';
-import {Card} from 'antd';
+import {TransactionCardContainer, Amount, Payment} from './elements';
+import {Row, Col, Card} from 'antd';
+import moment from 'moment';
 
 const {Meta} = Card;
 
-const TransactionCard = () => {
+const TransactionCard = ({
+  transaction: {type, paymentMethod, name, description, amount, date},
+}) => {
   return (
     <TransactionCardContainer>
-      <Meta
-        title="Nombre de la transacción"
-        description="Descripción de la transacción"
-      />
+      <Row>
+        <Col span={21}>
+          <Meta title={name} description={description} />
+        </Col>
+        <Col span={2}>
+          <Amount type={type}>{`$${amount}`}</Amount>
+          <Payment>{paymentMethod}</Payment>
+        </Col>
+      </Row>
+      <Row style={{color: 'rgba(0, 0, 0, 0.45)'}}>
+        {moment(date).format('MMMM DD YYYY')}
+      </Row>
     </TransactionCardContainer>
   );
 };
