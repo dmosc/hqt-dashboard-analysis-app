@@ -1,0 +1,16 @@
+# Types
+type ProductType {
+  id: ID!
+  name: String!
+  code: String!
+}
+
+# Inputs
+input ProductTypeInput {
+  name: String!
+  code: String!
+}
+
+input ProductTypeFilters {
+  limit: Int
+}

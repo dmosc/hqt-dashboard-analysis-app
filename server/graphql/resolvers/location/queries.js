@@ -10,7 +10,9 @@ const locationQueries = {
     else return location;
   },
   locations: async (_, {filters: {limit}}) => {
-    const locations = await Location.find({}).limit(limit || 10);
+    const locations = await Location.find({})
+      .limit(limit || 10)
+      .sort([['name', 1]]);
 
     if (!locations) throw new ApolloError('No Locations registered!');
     else return locations;

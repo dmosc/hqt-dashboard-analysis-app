@@ -12,7 +12,9 @@ const artisanMutations = {
       artisan.code = code + artisan.firstName.toUpperCase().split(' ')[0];
       artisan.password = hash(args.artisan.password, 10);
       artisan.username = args.artisan.username.toLowerCase().trim();
-      artisan.email = args.artisan.email.toLowerCase().trim();
+      artisan.email = artisan.email
+        ? args.artisan.email.toLowerCase().trim()
+        : delete artisan.email;
       artisan.role = 'ARTISAN';
 
       await artisan.save();

@@ -4,8 +4,8 @@ type Artisan {
   firstName: String!
   lastName: String!
   username: String!
-  email: String!
-  password: String!
+  email: String
+  password: String
   role: Role!
   profileImage: String
   active: Boolean!
@@ -17,8 +17,8 @@ type Artisan {
 # Inputs
 input ArtisanRegister {
   username: String!
-  email: String!
-  password: String!
+  email: String
+  password: String
   origin: ID!
   firstName: String!
   lastName: String!

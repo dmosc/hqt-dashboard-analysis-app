@@ -10,7 +10,9 @@ const originQueries = {
     else return origin;
   },
   origins: async (_, {filters: {limit}}) => {
-    const origins = await Origin.find({}).limit(limit || 10);
+    const origins = await Origin.find({})
+      .limit(limit || 10)
+      .sort([['code', 1]]);
 
     if (!origins) throw new ApolloError('No Origins registered!');
     else return origins;

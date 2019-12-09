@@ -12,6 +12,7 @@ const artisanQueries = {
   artisans: async (_, {filters: {limit}}) => {
     const artisans = await Artisan.find({})
       .limit(limit || 10)
+      .sort([['lastName', 1]])
       .populate('origin');
 
     if (!artisans) throw new ApolloError('No Artisans registered!');

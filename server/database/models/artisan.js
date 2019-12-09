@@ -4,6 +4,8 @@ import {User} from './index';
 const Artisan = User.discriminator(
   'Artisan',
   new Schema({
+    email: {type: String, required: false, index: {unique: true}},
+    password: {type: String, required: false},
     code: {type: String, required: true},
     origin: {type: Schema.Types.ObjectId, ref: 'Origin', required: true},
     role: {

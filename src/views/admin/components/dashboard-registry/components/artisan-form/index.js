@@ -1,31 +1,45 @@
 import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
-import {Form, Icon, Input, Button, Select} from 'antd';
+import {Form, List, Icon, Input, Button, Select} from 'antd';
 import {ARTISAN_REGISTER} from './graphql/mutations';
-import {GET_ORIGINS} from './graphql/queries';
+import ListContainer from './components/list/index';
+import {GET_ORIGINS, GET_ARTISANS} from './graphql/queries';
 
 const {Option} = Select;
 
 class ArtisanForm extends Component {
   state = {
     loading: false,
+    loadingArtisans: false,
     origins: [],
+    artisans: [],
   };
 
   componentDidMount = async () => {
     const {client} = this.props;
-    try {
-      const {
-        data: {origins},
-      } = await client.query({
-        query: GET_ORIGINS,
-        variables: {
-          filters: {limit: 10},
-        },
-      });
+    this.setState({loadingArtisans: true});
 
-      this.setState({origins});
+    try {
+      const [
+        {
+          data: {origins},
+        },
+        {
+          data: {artisans},
+        },
+      ] = await Promise.all([
+        client.query({
+          query: GET_ORIGINS,
+          variables: {filters: {}},
+        }),
+        client.query({
+          query: GET_ARTISANS,
+          variables: {filters: {}},
+        }),
+      ]);
+
+      this.setState({loadingArtisans: false, origins, artisans});
     } catch (e) {
       toast(e, 'error', {duration: 3000, closeable: true});
     }
@@ -38,6 +52,7 @@ class ArtisanForm extends Component {
     e.preventDefault();
     form.validateFields(
       async (err, {firstName, lastName, username, email, password, origin}) => {
+        console.log(email, password);
         if (!err) {
           try {
             const {
@@ -79,88 +94,106 @@ class ArtisanForm extends Component {
 
   render() {
     const {form} = this.props;
-    const {loading, origins} = this.state;
+    const {loading, loadingArtisans, origins, artisans} = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
-          {form.getFieldDecorator('firstName', {
-            rules: [{required: true, message: 'Please input your name(s)!'}],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="First name(s)"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('lastName', {
-            rules: [
-              {required: true, message: 'Please input your last name(s)!'},
-            ],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Last name(s)"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('username', {
-            rules: [{required: true, message: 'Please input your username!'}],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Username"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('email', {
-            rules: [{required: true, message: 'Please input your email!'}],
-          })(
-            <Input
-              prefix={<Icon type="email" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Email"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('password', {
-            rules: [{required: true, message: 'Please input your Password!'}],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {form.getFieldDecorator('origin', {
-            rules: [{required: true, message: 'Please select an Origin!'}],
-          })(
-            <Select placeholder="Origin">
-              {origins.map(({municipality, community, group, code, id}, i) => (
-                <Option key={i} value={id}>
-                  {`${code} (${municipality}, ${community}, ${group})`}
-                </Option>
-              ))}
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="artisan-form-button"
-            icon="save"
-            loading={loading}
-          >
-            {(loading && 'Wait..') || 'Save'}
-          </Button>
-        </Form.Item>
-      </Form>
+      <React.Fragment>
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <Form.Item>
+            {form.getFieldDecorator('firstName', {
+              rules: [{required: true, message: 'Please input your name(s)!'}],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
+                placeholder="First name(s)"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator('lastName', {
+              rules: [
+                {required: true, message: 'Please input your last name(s)!'},
+              ],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
+                placeholder="Last name(s)"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator('username', {
+              rules: [{required: true, message: 'Please input your username!'}],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
+                placeholder="Username"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator('email')(
+              <Input
+                prefix={
+                  <Icon type="email" style={{color: 'rgba(0,0,0,.25)'}} />
+                }
+                placeholder="Email"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator('password')(
+              <Input
+                prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
+                type="password"
+                placeholder="Password"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator('origin', {
+              rules: [{required: true, message: 'Please select an Origin!'}],
+            })(
+              <Select placeholder="Origin">
+                {origins.map(
+                  ({municipality, community, group, code, id}, i) => (
+                    <Option key={i} value={id}>
+                      {`${code} (${municipality}, ${community}, ${group})`}
+                    </Option>
+                  )
+                )}
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="artisan-form-button"
+              icon="save"
+              loading={loading}
+            >
+              {(loading && 'Wait..') || 'Save'}
+            </Button>
+          </Form.Item>
+        </Form>
+        <ListContainer title="Artesanas registradas">
+          <List
+            loading={loadingArtisans}
+            itemLayout="horizontal"
+            dataSource={artisans}
+            size="small"
+            renderItem={artisan => (
+              <List.Item actions={[<Icon type="edit" />]}>
+                <List.Item.Meta
+                  title={`${artisan.lastName}, ${artisan.firstName}`}
+                  description={`${artisan.origin.code}`}
+                />
+              </List.Item>
+            )}
+          />
+        </ListContainer>
+      </React.Fragment>
     );
   }
 }
