@@ -9,6 +9,7 @@ import {GET_PRODUCT_TYPES} from './graphql/queries';
 class ProductTypeForm extends Component {
   state = {
     loading: false,
+    codeSuggestion: '',
     loadingProductTypes: false,
     productTypes: [],
   };
@@ -53,7 +54,6 @@ class ProductTypeForm extends Component {
             },
           });
 
-          this.setState({loading: false});
           toast(`Nuevo tipo de producto registrado: ${productType.code}`, {
             duration: 3000,
             closeable: true,
@@ -62,7 +62,7 @@ class ProductTypeForm extends Component {
           const productTypes = [...oldProductTypes];
           productTypes.unshift(productType);
 
-          this.setState({productTypes});
+          this.setState({loading: false, productTypes});
 
           form.resetFields();
         } catch (e) {
@@ -75,9 +75,25 @@ class ProductTypeForm extends Component {
     });
   };
 
+  handleProductTypeChange = productType => {
+    if (productType.length > 3)
+      this.setState({
+        codeSuggestion: productType.substring(0, 3).toUpperCase(),
+      });
+    else
+      this.setState({
+        codeSuggestion: '',
+      });
+  };
+
   render() {
     const {form} = this.props;
-    const {loading, loadingProductTypes, productTypes} = this.state;
+    const {
+      loading,
+      codeSuggestion,
+      loadingProductTypes,
+      productTypes,
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -89,6 +105,9 @@ class ProductTypeForm extends Component {
               <Input
                 prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
                 placeholder="Nombre de tipo de prenda"
+                onChange={({target: {value}}) =>
+                  this.handleProductTypeChange(value)
+                }
               />
             )}
           </Form.Item>
@@ -100,7 +119,11 @@ class ProductTypeForm extends Component {
                 prefix={
                   <Icon type="highlight" style={{color: 'rgba(0,0,0,.25)'}} />
                 }
-                placeholder="Código de referencia"
+                placeholder={
+                  codeSuggestion
+                    ? `Sugerencia: ${codeSuggestion}`
+                    : 'Código de referencia'
+                }
               />
             )}
           </Form.Item>

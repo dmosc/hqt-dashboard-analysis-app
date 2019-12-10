@@ -37,6 +37,8 @@ class LocationForm extends Component {
 
   handleSubmit = e => {
     const {form, client} = this.props;
+    const {locations: oldLocations} = this.state;
+
     this.setState({loading: true});
     e.preventDefault();
     form.validateFields(async (err, {name, address}) => {
@@ -51,11 +53,16 @@ class LocationForm extends Component {
             },
           });
 
-          this.setState({loading: false});
           toast(`New location registered: ${location.name}`, {
             duration: 3000,
             closeable: true,
           });
+
+          const locations = [...oldLocations];
+          locations.unshift(location);
+
+          this.setState({loading: false, locations});
+
           form.resetFields();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>

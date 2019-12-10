@@ -37,6 +37,8 @@ class OriginForm extends Component {
 
   handleSubmit = e => {
     const {form, client} = this.props;
+    const {origins: oldOrigins} = this.state;
+
     this.setState({loading: true});
     e.preventDefault();
     form.validateFields(async (err, {municipality, community, group}) => {
@@ -51,11 +53,16 @@ class OriginForm extends Component {
             },
           });
 
-          this.setState({loading: false});
           toast(`New code registered: ${origin.code}`, {
             duration: 3000,
             closeable: true,
           });
+
+          const origins = [...oldOrigins];
+          origins.unshift(origin);
+
+          this.setState({loading: false, origins});
+
           form.resetFields();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
