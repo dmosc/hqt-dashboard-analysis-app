@@ -39,11 +39,8 @@ class TransactionForm extends Component {
             this.setState({loading: false});
             handleNewTransaction(transaction);
 
-            toast(`New transaction registered: ${transaction.name}`, {
-              duration: 3000,
-              closeable: true,
-            });
             form.resetFields();
+            window.location.reload();
           } catch (e) {
             toast(e, 'error', {duration: 3000, closeable: true});
             this.setState({loading: false});
@@ -82,12 +79,22 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('date', {
-              rules: [{required: true, message: 'A date is required!'}],
+              rules: [
+                {
+                  required: true,
+                  message: 'La fecha de recepción es requerida!',
+                },
+              ],
             })(<DatePicker placeholder="Fecha" />)}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('name', {
-              rules: [{required: true, message: 'A name is required!'}],
+              rules: [
+                {
+                  required: true,
+                  message: 'Nombre de transacción es requerido!',
+                },
+              ],
             })(
               <Input
                 prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
@@ -97,7 +104,9 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('description', {
-              rules: [{required: true, message: 'A description is required!'}],
+              rules: [
+                {required: true, message: 'Descripción de la transacción!'},
+              ],
             })(
               <TextArea
                 allowClear
@@ -108,11 +117,11 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('amount', {
-              rules: [{required: true, message: 'An amount is required!'}],
+              rules: [{required: true, message: 'Un monto es requerido!'}],
             })(
               <InputNumber
                 style={{width: '100%'}}
-                placeholder="$ Retail price"
+                placeholder="$ Monto de la transacción"
                 min={0}
                 step={0.1}
               />
@@ -126,7 +135,7 @@ class TransactionForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere..') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>

@@ -31,7 +31,7 @@ class OriginForm extends Component {
 
       this.setState({origins, loadingOrigins: false});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingOrigins: false});
     }
   };
 
@@ -64,6 +64,7 @@ class OriginForm extends Component {
           this.setState({loading: false, origins});
 
           form.resetFields();
+          window.location.reload();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
             toast(message, 'error', {duration: 3000, closeable: true})

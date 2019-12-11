@@ -12,7 +12,7 @@ class ProductForm extends Component {
   };
 
   handleSubmit = e => {
-    const {form, client} = this.props;
+    const {form, client, handleNewProduct} = this.props;
     this.setState({loading: true});
     e.preventDefault();
     form.validateFields(
@@ -44,6 +44,9 @@ class ProductForm extends Component {
             });
 
             this.setState({loading: false});
+            if (location) handleNewProduct(newProduct, 'stock');
+            else handleNewProduct(newProduct, 'production');
+
             toast(`New product registered: ${newProduct.code}`, {
               duration: 3000,
               closeable: true,
@@ -70,19 +73,23 @@ class ProductForm extends Component {
       <Form onSubmit={this.handleSubmit} className="product-form">
         <Form.Item>
           {form.getFieldDecorator('productName', {
-            rules: [{required: true, message: 'Name is required!'}],
+            rules: [
+              {required: true, message: 'Nombre del producto es requerido!'},
+            ],
           })(
             <Input
               prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Name of the product"
+              placeholder="Nombre del producto"
             />
           )}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('productType', {
-            rules: [{required: true, message: 'Product type is required!'}],
+            rules: [
+              {required: true, message: 'Tipo de producto es requerido!'},
+            ],
           })(
-            <Select placeholder="Product Type">
+            <Select placeholder="Tipo de producto">
               {productTypes.map(({id, name, code}, i) => (
                 <Option key={i} value={id}>
                   {`${code} : ${name}`}
@@ -93,16 +100,18 @@ class ProductForm extends Component {
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('dateReceived', {
-            rules: [{required: true, message: 'A date is required!'}],
-          })(<DatePicker placeholder="Date received" />)}
+            rules: [
+              {required: true, message: 'Fecha de recepción es requerida!'},
+            ],
+          })(<DatePicker placeholder="Fecha recibido" />)}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('retailPrice', {
-            rules: [{required: true, message: 'A retail price is required!'}],
+            rules: [{required: true, message: 'Precio de venta es requerido!'}],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="$ Retail price"
+              placeholder="$ Precio de venta"
               min={0}
               step={0.1}
             />
@@ -110,9 +119,9 @@ class ProductForm extends Component {
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('artisan', {
-            rules: [{required: true, message: 'Please select an Artisan!'}],
+            rules: [{required: true, message: 'Seleccione una artesana!'}],
           })(
-            <Select placeholder="Artisan">
+            <Select placeholder="Artesana">
               {artisans.map(({id, firstName, lastName, origin}, i) => (
                 <Option key={i} value={`${id}:${origin.id}`}>
                   {`${origin.code} ${lastName} ${firstName[0]}.`}
@@ -126,13 +135,13 @@ class ProductForm extends Component {
             rules: [
               {
                 required: true,
-                message: 'Please select current Location of product!',
+                message: 'Seleccione la ubicación actual del producto!',
               },
             ],
           })(
-            <Select placeholder="Location">
+            <Select placeholder="Ubicación actual">
               <Option key={-1} value={0}>
-                None
+                No la hemos recibido
               </Option>
               {locations.map(({id, name}, i) => (
                 <Option key={i} value={id}>
@@ -150,7 +159,7 @@ class ProductForm extends Component {
             icon="save"
             loading={loading}
           >
-            {(loading && 'Wait..') || 'Save'}
+            {(loading && 'Espere..') || 'Guardar'}
           </Button>
         </Form.Item>
       </Form>

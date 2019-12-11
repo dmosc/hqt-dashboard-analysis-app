@@ -17,27 +17,20 @@ class SellForm extends Component {
   };
 
   handleSubmit = e => {
-    const {form, showModal, currentProductId: id, client} = this.props;
+    const {form, currentProductId: id, client} = this.props;
 
     e.preventDefault();
     form.validateFields(async (err, {paymentMethod, seller, dateSold}) => {
       if (!err) {
         try {
-          const {
-            data: {sell: product},
-          } = await client.mutate({
+          await client.mutate({
             mutation: REGISTER_SELL_TRANSACTION,
             variables: {
               product: {id, paymentMethod, seller: seller[0], dateSold},
             },
           });
 
-          toast(`Product ${product.code} has been modified succesfully!`, {
-            duration: 3000,
-            closeable: true,
-          });
-
-          showModal();
+          window.location.reload();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
             toast(message, 'error', {duration: 3000, closeable: true})
@@ -50,7 +43,9 @@ class SellForm extends Component {
   };
 
   handleCancel = () => {
-    const {showModal} = this.props;
+    const {showModal, getInventory} = this.props;
+
+    getInventory();
     showModal();
   };
 
@@ -105,8 +100,10 @@ class SellForm extends Component {
               {form.getFieldDecorator('paymentMethod')(
                 <Group>
                   <Button value="CASH">Cash</Button>
-                  <Button value="I-ZETTLE">iZettle</Button>
+                  <Button value="IZETTLE">iZettle</Button>
                   <Button value="CLIP">Clip</Button>
+                  <Button value="PAYPAL">Paypal</Button>
+                  <Button value="TRANSFER">Transfer</Button>
                   <Button value="OTHER">Other</Button>
                 </Group>
               )}

@@ -28,11 +28,9 @@ class ProductTypeForm extends Component {
         },
       });
 
-      if (!productTypes) this.setState({loadingProductTypes: false});
-
       this.setState({productTypes, loadingProductTypes: false});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingProductTypes: false});
     }
   };
 
@@ -65,6 +63,7 @@ class ProductTypeForm extends Component {
           this.setState({loading: false, productTypes});
 
           form.resetFields();
+          window.location.reload();
         } catch (e) {
           toast(e, 'error', {duration: 3000, closeable: true});
           this.setState({loading: false});

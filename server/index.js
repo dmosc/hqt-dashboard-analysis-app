@@ -8,6 +8,7 @@ import app from './app';
     await mongoose
       .connect(MONGO_DB_URI, {
         useNewUrlParser: true,
+        useFindAndModify: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
       })

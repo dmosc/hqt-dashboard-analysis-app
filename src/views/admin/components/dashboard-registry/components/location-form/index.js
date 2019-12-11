@@ -31,7 +31,7 @@ class LocationForm extends Component {
 
       this.setState({locations, loadingLocations: false});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingLocations: false});
     }
   };
 
@@ -64,6 +64,7 @@ class LocationForm extends Component {
           this.setState({loading: false, locations});
 
           form.resetFields();
+          window.location.reload();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
             toast(message, 'error', {duration: 3000, closeable: true})
