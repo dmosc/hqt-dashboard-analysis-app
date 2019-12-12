@@ -1,3 +1,10 @@
-const paymentMethods = ['CASH', 'IZETTLE', 'CLIP', 'OTHER'];
+const paymentMethods = [
+  'CASH',
+  'IZETTLE',
+  'CLIP',
+  'PAYPAL',
+  'TRANSFER',
+  'OTHER',
+];
 
 export default paymentMethods;

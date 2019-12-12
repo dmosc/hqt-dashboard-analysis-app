@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import cookie from 'react-cookies';
 import Loadable from 'react-loadable';
 import TopBarProgress from 'react-topbar-progress-indicator';
-import toast from 'toast-me';
 import {withApollo} from 'react-apollo';
 import {JWT_SECRET} from 'config';
 import {GET_USER_DATA} from './graphql/queries';
@@ -95,10 +94,13 @@ class Admin extends Component {
       });
 
       this.setState({user});
+<<<<<<< HEAD
       toast(`Bienvenido ${user.firstName}!`, 'success', {
         duration: 3000,
         closeable: true,
       });
+=======
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
     } catch (e) {
       cookie.remove('token', {path: '/'});
       window.location.reload();

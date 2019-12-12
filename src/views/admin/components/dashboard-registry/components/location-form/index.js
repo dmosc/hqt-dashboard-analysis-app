@@ -31,12 +31,14 @@ class LocationForm extends Component {
 
       this.setState({locations, loadingLocations: false});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingLocations: false});
     }
   };
 
   handleSubmit = e => {
     const {form, client} = this.props;
+    const {locations: oldLocations} = this.state;
+
     this.setState({loading: true});
     e.preventDefault();
     form.validateFields(async (err, {name, address}) => {
@@ -51,12 +53,23 @@ class LocationForm extends Component {
             },
           });
 
+<<<<<<< HEAD
           this.setState({loading: false});
           toast(`Lugar registrado: ${location.name}`, {
+=======
+          toast(`New location registered: ${location.name}`, {
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             duration: 3000,
             closeable: true,
           });
+
+          const locations = [...oldLocations];
+          locations.unshift(location);
+
+          this.setState({loading: false, locations});
+
           form.resetFields();
+          window.location.reload();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
             toast(message, 'error', {duration: 3000, closeable: true})

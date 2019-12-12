@@ -13,7 +13,7 @@ type Garment {
   location: ID
   weight: Float!
   workforceCost: Float!
-  totalDaysToProduce: Int!
+  totalHoursToProduce: Int!
 }
 
 # Inputs
@@ -26,6 +26,6 @@ input GarmentInput {
   location: ID
   weight: Float!
   workforceCost: Float!
-  totalDaysToProduce: Int!
+  totalHoursToProduce: Int!
   rawMaterialsPrice: Int!
 }

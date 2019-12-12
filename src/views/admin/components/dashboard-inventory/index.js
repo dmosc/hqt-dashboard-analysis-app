@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import {Link} from 'react-router-dom';
-import {Form, Row} from 'antd';
+import {Form, Row, Icon} from 'antd';
 import {DragDropContext} from 'react-beautiful-dnd';
 import toast from 'toast-me';
 import Layout from 'components/layout/admin';
@@ -9,54 +9,19 @@ import Container from 'components/common/container';
 import Column from './components/column';
 import ProductForm from './components/product-form';
 import GarmentForm from './components/garment-form';
+import RegisterForm from './components/register-form';
+import ReturnForm from './components/return-form';
+import SellForm from './components/sell-form';
 import {
   GET_ARTISANS,
   GET_LOCATIONS,
   GET_INVENTORY,
   GET_PRODUCT_TYPES,
 } from './graphql/queries';
-import RegisterForm from './components/register-form';
-import SellForm from './components/sell-form';
-
-const data = {
-  tasks: {
-    'task-1': {id: 'task-1', content: 'TASK TEST1'},
-    'task-2': {id: 'task-2', content: 'TASK TEST2'},
-    'task-3': {id: 'task-3', content: 'TASK TEST'},
-    'task-4': {id: 'task-4', content: 'TASK TEST'},
-    'task-5': {id: 'task-5', content: 'TASK TEST'},
-    'task-8': {id: 'task-8', content: 'TASK TEST'},
-    'task-9': {id: 'task-9', content: 'TASK TEST'},
-    'task-10': {id: 'task-10', content: 'TASK TEST'},
-    'task-11': {id: 'task-11', content: 'TASK TEST'},
-    'task-12': {id: 'task-12', content: 'TASK TEST'},
-  },
-  columns: {
-    production: {
-      id: 'production',
-      title: 'Production',
-      description: 'Products that are still not available but in process',
-      taskIds: [],
-    },
-    stock: {
-      id: 'stock',
-      title: 'Stock',
-      description: 'Products available at any location',
-      taskIds: [],
-    },
-    dispatched: {
-      id: 'dispatched',
-      title: 'Dispatched',
-      description: 'Products already sold and delivered',
-      taskIds: [],
-    },
-  },
-  columnOrder: ['production', 'stock', 'dispatched'],
-};
 
 class DashboardInventory extends Component {
   state = {
-    info: data,
+    info: {},
     form: 'product',
     currentProductId: '',
     artisans: [],
@@ -65,7 +30,9 @@ class DashboardInventory extends Component {
     modalForm: '',
   };
 
-  componentDidMount = async () => {
+  componentDidMount = () => this.getInventory();
+
+  getInventory = async () => {
     const {client} = this.props;
     const {info} = this.state;
 
@@ -107,24 +74,27 @@ class DashboardInventory extends Component {
         }),
       ]);
 
+      const columnOrder = ['production', 'stock', 'dispatched'];
       const tasks = {};
       const columns = {
         production: {
           id: 'production',
-          title: 'Production',
-          description: 'Products that are still not available but in process',
+          title: 'Producción',
+          description:
+            'Productos que aún están en proceso de manufactura y no disponibles.',
           taskIds: [],
         },
         stock: {
           id: 'stock',
-          title: 'Stock',
-          description: 'Products available at any location',
+          title: 'Inventario',
+          description:
+            'Productos disponibles en todas las ubicaciones existentes.',
           taskIds: [],
         },
         dispatched: {
           id: 'dispatched',
-          title: 'Dispatched',
-          description: 'Products already sold and delivered',
+          title: 'Vendido',
+          description: 'Productos vendidos y entregados.',
           taskIds: [],
         },
       };
@@ -141,7 +111,7 @@ class DashboardInventory extends Component {
         columns.dispatched.taskIds.push(id);
       });
 
-      const newInfo = {...info, tasks, columns};
+      const newInfo = {...info, tasks, columns, columnOrder};
 
       this.setState({artisans, locations, productTypes, info: {...newInfo}});
     } catch (e) {
@@ -190,10 +160,12 @@ class DashboardInventory extends Component {
         this.showModal('register');
       else if (start.id === 'stock' && end.id === 'dispatched')
         this.showModal('sell');
+      else if (start.id === 'dispatched' && end.id === 'stock')
+        this.showModal('return');
       else return;
 
-      const startTaskIds = Array.from(start.taskIds);
-      const endTaskIds = Array.from(end.taskIds);
+      const startTaskIds = [...start.taskIds];
+      const endTaskIds = [...end.taskIds];
       startTaskIds.splice(source.index, 1);
       endTaskIds.splice(destination.index, 0, draggableId);
 
@@ -220,6 +192,18 @@ class DashboardInventory extends Component {
     }
   };
 
+  handleNewProduct = ({id, productName}, column) => {
+    const {info: oldInfo} = this.state;
+    const tasks = {...oldInfo.tasks};
+    const columns = {...oldInfo.columns};
+
+    tasks[id] = {id, content: productName};
+    columns[column].taskIds.push(id);
+
+    const info = {...oldInfo, tasks, columns};
+    this.setState({info});
+  };
+
   render() {
     const {
       info,
@@ -236,6 +220,7 @@ class DashboardInventory extends Component {
     const GarmentRegisterForm = Form.create({name: 'garment'})(GarmentForm);
     const RegisterLocation = Form.create({name: 'register'})(RegisterForm);
     const RegisterSell = Form.create({name: 'sell'})(SellForm);
+    const RegisterReturn = Form.create({name: 'sell'})(ReturnForm);
 
     return (
       <React.Fragment>
@@ -248,21 +233,26 @@ class DashboardInventory extends Component {
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Container width="75%">
               <Row type="flex" gutter={[40]} justify="center">
-                {info.columnOrder.map(columnId => {
-                  const column = info.columns[columnId];
-                  const tasks = column.taskIds.map(
-                    taskId => info.tasks[taskId]
-                  );
+                {(info.columnOrder &&
+                  info.columnOrder.map(columnId => {
+                    const column = info.columns[columnId];
+                    const tasks = column.taskIds.map(
+                      taskId => info.tasks[taskId]
+                    );
 
-                  return (
-                    <Column key={column.id} column={column} tasks={tasks} />
-                  );
-                })}
+                    return (
+                      <Column key={column.id} column={column} tasks={tasks} />
+                    );
+                  })) || (
+                  <div>
+                    Cargando inventario <Icon type="loading" />
+                  </div>
+                )}
               </Row>
             </Container>
           </DragDropContext>
           <Container
-            title={`${form === 'product' ? 'Product' : 'Garment'}`}
+            title={`${form === 'product' ? 'Producto' : 'Prenda'}`}
             width="25%"
           >
             {form === 'product' ? (
@@ -270,21 +260,23 @@ class DashboardInventory extends Component {
                 artisans={artisans}
                 locations={locations}
                 productTypes={productTypes}
+                handleNewProduct={this.handleNewProduct}
               />
             ) : (
               <GarmentRegisterForm
                 artisans={artisans}
                 locations={locations}
                 productTypes={productTypes}
+                handleNewProduct={this.handleNewProduct}
               />
             )}
             {form === 'product' ? (
               <Link to="#" onClick={() => this.handleFormType('garment')}>
-                Register a Garment
+                Registrar Prenda
               </Link>
             ) : (
               <Link to="#" onClick={() => this.handleFormType('product')}>
-                Register a Product
+                Registrar Producto
               </Link>
             )}
           </Container>
@@ -295,6 +287,7 @@ class DashboardInventory extends Component {
           showModal={this.showModal}
           handleModalSumbit={this.handleModalSumbit}
           currentProductId={currentProductId}
+          getInventory={this.getInventory}
         />
         <RegisterSell
           visible={modalForm === 'sell'}
@@ -302,6 +295,14 @@ class DashboardInventory extends Component {
           showModal={this.showModal}
           handleModalSumbit={this.handleModalSumbit}
           currentProductId={currentProductId}
+          getInventory={this.getInventory}
+        />
+        <RegisterReturn
+          visible={modalForm === 'return'}
+          showModal={this.showModal}
+          handleModalSumbit={this.handleModalSumbit}
+          currentProductId={currentProductId}
+          getInventory={this.getInventory}
         />
       </React.Fragment>
     );

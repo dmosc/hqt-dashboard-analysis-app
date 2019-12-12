@@ -25,6 +25,8 @@ enum PaymentMethod {
   CASH
   IZETTLE
   CLIP
+  PAYPAL
+  TRANSFER
   OTHER
 }
 

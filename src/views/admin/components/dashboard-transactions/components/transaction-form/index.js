@@ -39,11 +39,15 @@ class TransactionForm extends Component {
             this.setState({loading: false});
             handleNewTransaction(transaction);
 
+<<<<<<< HEAD
             toast(`Nueva transacción registrada: ${transaction.name}`, {
               duration: 3000,
               closeable: true,
             });
+=======
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             form.resetFields();
+            window.location.reload();
           } catch (e) {
             toast(e, 'error', {duration: 3000, closeable: true});
             this.setState({loading: false});
@@ -82,12 +86,30 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('date', {
+<<<<<<< HEAD
               rules: [{required: true, message: 'Fecha requerida!'}],
+=======
+              rules: [
+                {
+                  required: true,
+                  message: 'La fecha de recepción es requerida!',
+                },
+              ],
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             })(<DatePicker placeholder="Fecha" />)}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('name', {
+<<<<<<< HEAD
               rules: [{required: true, message: 'Ingrese el nombre!'}],
+=======
+              rules: [
+                {
+                  required: true,
+                  message: 'Nombre de transacción es requerido!',
+                },
+              ],
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             })(
               <Input
                 prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
@@ -97,7 +119,13 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('description', {
+<<<<<<< HEAD
               rules: [{required: true, message: 'Una descripción es requerida!'}],
+=======
+              rules: [
+                {required: true, message: 'Descripción de la transacción!'},
+              ],
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             })(
               <TextArea
                 allowClear
@@ -108,11 +136,19 @@ class TransactionForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('amount', {
+<<<<<<< HEAD
               rules: [{required: true, message: 'Precio faltante!'}],
             })(
               <InputNumber
                 style={{width: '100%'}}
                 placeholder="Precio (MXN)"
+=======
+              rules: [{required: true, message: 'Un monto es requerido!'}],
+            })(
+              <InputNumber
+                style={{width: '100%'}}
+                placeholder="$ Monto de la transacción"
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
                 min={0}
                 step={0.1}
               />

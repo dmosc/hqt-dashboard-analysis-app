@@ -54,6 +54,7 @@ type Mutation {
   garment(garment: GarmentInput!): Product
   sell(product: ProductSellInput!): Product
   receive(product: ProductReceiveInput!): Product
+  return(product: ProductReturnInput!): Product
   # ProductType
   productType(productType: ProductTypeInput!): ProductType
   # Transaction

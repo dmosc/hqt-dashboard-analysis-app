@@ -1,6 +1,6 @@
 import {Artisan, Product, Location} from '../../../database/models';
 import authenticated from '../../middleware/authenticated';
-import {User, ProductType} from '../../../database/models/index';
+import {User, ProductType, Transaction} from '../../../database/models';
 
 const productMutations = {
   product: authenticated(async (_, args) => {
@@ -37,8 +37,22 @@ const productMutations = {
 
       const product = await Product.findOneAndUpdate(
         {_id: args.product.id},
-        {...args.product, seller}
-      );
+        {...args.product, seller},
+        {new: true}
+      ).populate('seller');
+
+      const transaction = new Transaction({
+        type: 'IN',
+        paymentMethod: product.paymentMethod,
+        name: `Venta producto: ${product.productName}`,
+        description: `Transacción en inventario por ${product.seller.username}`,
+        amount: product.retailPrice,
+        date: product.dateSold,
+        product: product.id,
+      });
+
+      await transaction.save();
+
       return product;
     } catch (e) {
       throw new Error(e);
@@ -56,6 +70,25 @@ const productMutations = {
         {_id: args.product.id},
         {location}
       );
+
+      return product;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }),
+  return: authenticated(async (_, args) => {
+    try {
+      const product = await Product.findOneAndUpdate(
+        {_id: args.product.id},
+        {
+          $unset: {seller: '', paymentMethod: '', dateSold: ''},
+        },
+        {new: true}
+      );
+
+      if (!product) throw new Error('Product is not available!');
+
+      await Transaction.findOneAndRemove({product: product.id});
 
       return product;
     } catch (e) {

@@ -21,27 +21,27 @@ class ArtisanForm extends Component {
     this.setState({loadingArtisans: true});
 
     try {
-      const [
-        {
-          data: {origins},
-        },
-        {
-          data: {artisans},
-        },
-      ] = await Promise.all([
-        client.query({
-          query: GET_ORIGINS,
-          variables: {filters: {}},
-        }),
-        client.query({
-          query: GET_ARTISANS,
-          variables: {filters: {}},
-        }),
-      ]);
+      const {
+        data: {origins},
+      } = await client.query({
+        query: GET_ORIGINS,
+        variables: {filters: {}},
+      });
 
-      this.setState({loadingArtisans: false, origins, artisans});
+      if (origins) this.setState({origins});
+
+      const {
+        data: {artisans},
+      } = await client.query({
+        query: GET_ARTISANS,
+        variables: {filters: {}},
+      });
+
+      if (artisans) this.setState({artisans});
+
+      this.setState({loadingArtisans: false, origins});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingArtisans: false});
     }
   };
 
@@ -52,7 +52,6 @@ class ArtisanForm extends Component {
     e.preventDefault();
     form.validateFields(
       async (err, {firstName, lastName, username, email, password, origin}) => {
-        console.log(email, password);
         if (!err) {
           try {
             const {
@@ -72,11 +71,16 @@ class ArtisanForm extends Component {
             });
 
             this.setState({loading: false});
+<<<<<<< HEAD
             toast(`Artesano registrado con clave: ${artisan.code}`, {
               duration: 3000,
               closeable: true,
             });
+=======
+
+>>>>>>> 6eab12316f0284aa5d2aa1e60c904d6f2023fcf7
             form.resetFields();
+            window.location.reload();
           } catch (e) {
             e['graphQLErrors'].map(({message}) =>
               toast(message, 'error', {duration: 3000, closeable: true})

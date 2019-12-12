@@ -31,12 +31,14 @@ class OriginForm extends Component {
 
       this.setState({origins, loadingOrigins: false});
     } catch (e) {
-      toast(e, 'error', {duration: 3000, closeable: true});
+      this.setState({loadingOrigins: false});
     }
   };
 
   handleSubmit = e => {
     const {form, client} = this.props;
+    const {origins: oldOrigins} = this.state;
+
     this.setState({loading: true});
     e.preventDefault();
     form.validateFields(async (err, {municipality, community, group}) => {
@@ -51,12 +53,18 @@ class OriginForm extends Component {
             },
           });
 
-          this.setState({loading: false});
           toast(`New code registered: ${origin.code}`, {
             duration: 3000,
             closeable: true,
           });
+
+          const origins = [...oldOrigins];
+          origins.unshift(origin);
+
+          this.setState({loading: false, origins});
+
           form.resetFields();
+          window.location.reload();
         } catch (e) {
           e['graphQLErrors'].map(({message}) =>
             toast(message, 'error', {duration: 3000, closeable: true})

@@ -13,11 +13,11 @@ const garmentMutations = {
     if (!artisan) throw new Error('Artisan does not exists!');
     if (!productType) throw new Error('Product Type does not exists!');
 
-    const {weight, workforceCost, totalDaysToProduce} = garment;
+    const {weight, workforceCost, totalHoursToProduce} = garment;
     const {rawMaterialsPrice} = args.garment;
 
     const productionPrice =
-      (totalDaysToProduce / 24) * workforceCost + weight * rawMaterialsPrice;
+      totalHoursToProduce * workforceCost + (weight / 1000) * rawMaterialsPrice;
 
     const retailPrice =
       productionPrice +
