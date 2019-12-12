@@ -59,33 +59,33 @@ class Register extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
           {form.getFieldDecorator('firstName', {
-            rules: [{required: true, message: 'Please input your name(s)!'}],
+            rules: [{required: true, message: '¡Ingrese sus nombre(s)!'}],
           })(
             <Input
               prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="First name(s)"
+              placeholder="Nombre(s)"
             />
           )}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('lastName', {
             rules: [
-              {required: true, message: 'Please input your last name(s)!'},
+              {required: true, message: '¡Ingrese sus apellido(s)!'},
             ],
           })(
             <Input
               prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Last name(s)"
+              placeholder="Apellido(s)"
             />
           )}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('username', {
-            rules: [{required: true, message: 'Please input your username!'}],
+            rules: [{required: true, message: '¡Ingrese su usuario!'}],
           })(
             <Input
               prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Username"
+              placeholder="Usuario"
             />
           )}
         </Form.Item>
@@ -106,7 +106,7 @@ class Register extends Component {
             <Input
               prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
             />
           )}
         </Form.Item>
@@ -122,7 +122,7 @@ class Register extends Component {
             icon="login"
             loading={loading}
           >
-            {(loading && 'Wait..') || 'Login'}
+            {(loading && 'Espere...') || 'Login'}
           </Button>
         </Form.Item>
       </Form>

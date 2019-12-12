@@ -52,7 +52,7 @@ class LocationForm extends Component {
           });
 
           this.setState({loading: false});
-          toast(`New location registered: ${location.name}`, {
+          toast(`Lugar registrado: ${location.name}`, {
             duration: 3000,
             closeable: true,
           });
@@ -78,21 +78,21 @@ class LocationForm extends Component {
         <Form onSubmit={this.handleSubmit} className="location-form">
           <Form.Item>
             {form.getFieldDecorator('name', {
-              rules: [{required: true, message: 'Name is required!'}],
+              rules: [{required: true, message: 'El nombre es requerido!'}],
             })(
               <Input
                 prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="Name"
+                placeholder="Nombre"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('address', {
-              rules: [{required: true, message: 'Address is required!'}],
+              rules: [{required: true, message: 'Dirección requerida!'}],
             })(
               <Input
                 prefix={<Icon type="home" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="Address"
+                placeholder="Dirección"
               />
             )}
           </Form.Item>
@@ -104,7 +104,7 @@ class LocationForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere...') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>

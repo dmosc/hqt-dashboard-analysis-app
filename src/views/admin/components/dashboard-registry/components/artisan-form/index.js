@@ -72,7 +72,7 @@ class ArtisanForm extends Component {
             });
 
             this.setState({loading: false});
-            toast(`New Artisan code registered: ${artisan.code}`, {
+            toast(`Artesano registrado con clave: ${artisan.code}`, {
               duration: 3000,
               closeable: true,
             });
@@ -101,33 +101,33 @@ class ArtisanForm extends Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {form.getFieldDecorator('firstName', {
-              rules: [{required: true, message: 'Please input your name(s)!'}],
+              rules: [{required: true, message: 'Favor de ingresar los nombre(s)!'}],
             })(
               <Input
                 prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="First name(s)"
+                placeholder="Nombre(s)"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('lastName', {
               rules: [
-                {required: true, message: 'Please input your last name(s)!'},
+                {required: true, message: 'Favor de ingresar los apellido(s)!'},
               ],
             })(
               <Input
                 prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="Last name(s)"
+                placeholder="Apellido(s)"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('username', {
-              rules: [{required: true, message: 'Please input your username!'}],
+              rules: [{required: true, message: 'Favor de ingresar el usuario!'}],
             })(
               <Input
                 prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="Username"
+                placeholder="Usuario"
               />
             )}
           </Form.Item>
@@ -146,15 +146,15 @@ class ArtisanForm extends Component {
               <Input
                 prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
                 type="password"
-                placeholder="Password"
+                placeholder="Contraseña"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('origin', {
-              rules: [{required: true, message: 'Please select an Origin!'}],
+              rules: [{required: true, message: 'Favor de seleccionar un origen!'}],
             })(
-              <Select placeholder="Origin">
+              <Select placeholder="Origen">
                 {origins.map(
                   ({municipality, community, group, code, id}, i) => (
                     <Option key={i} value={id}>
@@ -173,7 +173,7 @@ class ArtisanForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere...') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>

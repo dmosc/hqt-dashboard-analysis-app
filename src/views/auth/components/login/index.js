@@ -53,22 +53,22 @@ class Login extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
           {form.getFieldDecorator('username', {
-            rules: [{required: true, message: 'Please input your username!'}],
+            rules: [{required: true, message: '¡Ingrese su nombre de usuario!'}],
           })(
             <Input
               prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Username"
+              placeholder="Usuario"
             />
           )}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('password', {
-            rules: [{required: true, message: 'Please input your Password!'}],
+            rules: [{required: true, message: '¡Ingrese su contraseña!'}],
           })(
             <Input
               prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
             />
           )}
         </Form.Item>
@@ -76,7 +76,7 @@ class Login extends Component {
           {form.getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
+          })(<Checkbox>Recuérdame</Checkbox>)}
           <Button
             type="primary"
             htmlType="submit"
@@ -84,7 +84,7 @@ class Login extends Component {
             icon="login"
             loading={loading}
           >
-            {(loading && 'Wait..') || 'Login'}
+            {(loading && 'Espere...') || 'Login'}
           </Button>
         </Form.Item>
       </Form>

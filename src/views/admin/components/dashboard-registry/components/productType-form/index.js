@@ -84,7 +84,7 @@ class ProductTypeForm extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {form.getFieldDecorator('name', {
-              rules: [{required: true, message: 'Name is required!'}],
+              rules: [{required: true, message: 'El nombre es requerido!'}],
             })(
               <Input
                 prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
@@ -94,7 +94,7 @@ class ProductTypeForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('code', {
-              rules: [{required: true, message: 'Code is required!'}],
+              rules: [{required: true, message: 'Código es requerido!'}],
             })(
               <Input
                 prefix={
@@ -112,7 +112,7 @@ class ProductTypeForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere..') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>

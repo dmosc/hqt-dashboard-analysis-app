@@ -78,35 +78,35 @@ class OriginForm extends Component {
         <Form onSubmit={this.handleSubmit} className="origin-form">
           <Form.Item>
             {form.getFieldDecorator('municipality', {
-              rules: [{required: true, message: 'Municipality is required!'}],
+              rules: [{required: true, message: 'El municipio es requerido!'}],
             })(
               <Input
                 prefix={
                   <Icon type="cloud" style={{color: 'rgba(0,0,0,.25)'}} />
                 }
-                placeholder="Municipality"
+                placeholder="Municipio"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('community', {
-              rules: [{required: true, message: 'Community is required!'}],
+              rules: [{required: true, message: 'Escriba la comunidad!'}],
             })(
               <Input
                 prefix={<Icon type="team" style={{color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="Community"
+                placeholder="Comunidad"
               />
             )}
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator('group', {
-              rules: [{required: true, message: 'Group number is required!'}],
+              rules: [{required: true, message: 'Ingrese el número de grupo!'}],
             })(
               <InputNumber
                 prefix={
                   <Icon type="number" style={{color: 'rgba(0,0,0,.25)'}} />
                 }
-                placeholder="Group"
+                placeholder="Grupo"
                 min={0}
               />
             )}
@@ -119,7 +119,7 @@ class OriginForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere..') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>

@@ -22,11 +22,11 @@ class Auth extends Component {
         {form === 'login' ? <UserLoginForm /> : <UserRegisterForm />}
         {form === 'login' ? (
           <Link to="#" onClick={() => this.handleFormType('register')}>
-            Register
+            Registrarse
           </Link>
         ) : (
           <Link to="#" onClick={() => this.handleFormType('login')}>
-            Login
+            Iniciar sesión
           </Link>
         )}
       </Container>

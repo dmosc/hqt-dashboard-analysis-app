@@ -83,19 +83,19 @@ class GarmentForm extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {form.getFieldDecorator('productName', {
-            rules: [{required: true, message: 'Name is required!'}],
+            rules: [{required: true, message: 'Ingrese el nombre!'}],
           })(
             <Input
               prefix={<Icon type="info" style={{color: 'rgba(0,0,0,.25)'}} />}
-              placeholder="Name of the product"
+              placeholder="Nombre del producto"
             />
           )}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('productType', {
-            rules: [{required: true, message: 'Product type is required!'}],
+            rules: [{required: true, message: 'Tipo de producto es requerido!'}],
           })(
-            <Select placeholder="Product Type">
+            <Select placeholder="Tipo de producto">
               {productTypes.map(({id, name, code}, i) => (
                 <Option key={i} value={id}>
                   {`${code} : ${name}`}
@@ -106,16 +106,16 @@ class GarmentForm extends Component {
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('dateReceived', {
-            rules: [{required: true, message: 'A date is required!'}],
-          })(<DatePicker placeholder="Date received" />)}
+            rules: [{required: true, message: 'La fecha es requerida!'}],
+          })(<DatePicker placeholder="Fecha de entrega" />)}
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('weight', {
-            rules: [{required: true, message: 'Garment weight is required!'}],
+            rules: [{required: true, message: 'El peso es requerido!'}],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="Garment weight in grams"
+              placeholder="Peso de la prenda en gramos"
               min={0}
               step={0.1}
             />
@@ -124,12 +124,12 @@ class GarmentForm extends Component {
         <Form.Item>
           {form.getFieldDecorator('rawMaterialsPrice', {
             rules: [
-              {required: true, message: 'Raw materials costs is required!'},
+              {required: true, message: 'El costo de los materiales es necesario!'},
             ],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="$ Raw materials costs in MXN"
+              placeholder="$ Costo de los materiales en MXN"
               min={0}
               step={0.1}
             />
@@ -138,12 +138,12 @@ class GarmentForm extends Component {
         <Form.Item>
           {form.getFieldDecorator('workforceCost', {
             rules: [
-              {required: true, message: 'Current workforce is required!'},
+              {required: true, message: 'El costo de la mano de obra es requerido!'},
             ],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="Current workforce cost in MXN/HR"
+              placeholder="Costo de mano de obra MXN/HR"
               min={0}
               step={0.5}
             />
@@ -152,12 +152,12 @@ class GarmentForm extends Component {
         <Form.Item>
           {form.getFieldDecorator('totalDaysToProduce', {
             rules: [
-              {required: true, message: 'Total days to produce is required!'},
+              {required: true, message: 'El tiempo de trabajo es requerido'},
             ],
           })(
             <InputNumber
               style={{width: '100%'}}
-              placeholder="Total days of work registered"
+              placeholder="Tiempo de producción (días)"
               min={1}
               step={1}
             />
@@ -165,9 +165,9 @@ class GarmentForm extends Component {
         </Form.Item>
         <Form.Item>
           {form.getFieldDecorator('artisan', {
-            rules: [{required: true, message: 'Please select an Artisan!'}],
+            rules: [{required: true, message: 'Seleccione una artesana!'}],
           })(
-            <Select placeholder="Artisan">
+            <Select placeholder="Artesana">
               {artisans.map(({id, firstName, lastName, origin}, i) => (
                 <Option key={i} value={`${id}:${origin.id}`}>
                   {`${origin.code} ${lastName} ${firstName[0]}.`}
@@ -181,11 +181,11 @@ class GarmentForm extends Component {
             rules: [
               {
                 required: true,
-                message: 'Please select current Location of product!',
+                message: 'Seleccione el lugar del producto!',
               },
             ],
           })(
-            <Select placeholder="Location">
+            <Select placeholder="Lugar">
               <Option key={-1} value={0}>
                 None
               </Option>
@@ -204,7 +204,7 @@ class GarmentForm extends Component {
             icon="save"
             loading={loading}
           >
-            {(loading && 'Wait..') || 'Save'}
+            {(loading && 'Espere..') || 'Guardar'}
           </Button>
         </Form.Item>
       </Form>

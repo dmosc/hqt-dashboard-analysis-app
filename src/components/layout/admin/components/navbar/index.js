@@ -24,11 +24,11 @@ const NavBar = props => {
         </MenuItem>
         <MenuItem onClick={() => window.location.reload()} key="2">
           <Icon type="reload" />
-          <span>Reload</span>
+          <span>Actualizar</span>
         </MenuItem>
         <MenuItem key="3" onClick={handleLogout}>
           <Icon type="logout" />
-          <span>Logout</span>
+          <span>Salir</span>
         </MenuItem>
       </Menu>
       <PageHeader

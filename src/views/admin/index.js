@@ -95,7 +95,7 @@ class Admin extends Component {
       });
 
       this.setState({user});
-      toast(`Welcome back ${user.firstName}!`, 'success', {
+      toast(`Bienvenido ${user.firstName}!`, 'success', {
         duration: 3000,
         closeable: true,
       });

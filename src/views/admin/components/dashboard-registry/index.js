@@ -23,7 +23,7 @@ class DashboardRegistry extends Component {
         user={user}
         collapsed={collapsed}
         onCollapse={onCollapse}
-        page="Registry"
+        page="Registro"
       >
         <Row>
           <Col span={6}>
