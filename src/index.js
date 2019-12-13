@@ -3,18 +3,17 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {preloadReady} from 'react-loadable';
 import cookie from 'react-cookies';
-import AuthProvider from 'components/providers/withAuth/provider';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {ApolloProvider} from 'react-apollo';
-import {createHttpLink} from 'apollo-link-http';
+import {createUploadLink} from 'apollo-upload-client';
 import {setContext} from 'apollo-link-context';
 import ApolloClient from 'apollo-client';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {LOCAL_SERVER_URI, SERVER_URI} from 'config';
 
-const link = createHttpLink({
+const link = createUploadLink({
   uri: SERVER_URI,
 });
 
@@ -39,9 +38,7 @@ window.onload = async () => {
   ReactDOM.render(
     <ApolloProvider client={client}>
       <Router basename="/">
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <App />
       </Router>
     </ApolloProvider>,
     document.getElementById('root')

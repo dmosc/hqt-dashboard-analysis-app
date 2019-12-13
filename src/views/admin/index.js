@@ -86,10 +86,11 @@ class Admin extends Component {
     try {
       const token = cookie.load('token');
       const {userId: id} = jwt.verify(token, JWT_SECRET);
+
       const {
         data: {user},
-      } = await client.mutate({
-        mutation: GET_USER_DATA,
+      } = await client.query({
+        query: GET_USER_DATA,
         variables: {id},
       });
 

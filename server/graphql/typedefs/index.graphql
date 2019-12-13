@@ -6,9 +6,12 @@
 # import * from "garment.graphql"
 # import * from "productType.graphql"
 # import * from "transaction.graphql"
+# import * from "resource.graphql"
+# import * from "others.graphql"
 
 # Scalars
 scalar Date
+scalar Upload
 
 # Directives
 directive @auth(roles: [Role]) on FIELD_DEFINITION
@@ -37,6 +40,9 @@ type Query {
   transaction(id: ID!): Transaction # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   transactions(filters: TransactionFilters!): [Transaction!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   results(filters: TransactionResultsFilters!): TransactionResults! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Resource
+  resource(id: ID!): Resource # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  resources(filters: ResourceFilters!): [Resource!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
 }
 
 type Mutation {
@@ -59,4 +65,9 @@ type Mutation {
   productType(productType: ProductTypeInput!): ProductType
   # Transaction
   transaction(transaction: TransactionInput!): Transaction
+  # Resource
+  resource(resource: ResourceInput!): Resource
+  # AWS
+  uploadFile(file: Upload!, folderKey: s3FolderKey!, id: ID!): String!
+  uploadImage(image: Upload!, folderKey: s3FolderKey!, id: ID!): String!
 }

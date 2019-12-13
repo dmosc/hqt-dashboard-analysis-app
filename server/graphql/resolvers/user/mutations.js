@@ -1,4 +1,4 @@
-import {User, Artisan, Origin} from '../../../database/models';
+import {User} from '../../../database/models';
 import {hashSync as hash, compareSync as comparePasswords} from 'bcryptjs';
 import {AuthenticationError} from 'apollo-server-core';
 import jwt from 'jsonwebtoken';

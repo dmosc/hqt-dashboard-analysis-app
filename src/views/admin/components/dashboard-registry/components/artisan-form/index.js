@@ -54,9 +54,7 @@ class ArtisanForm extends Component {
       async (err, {firstName, lastName, username, email, password, origin}) => {
         if (!err) {
           try {
-            const {
-              data: {artisan},
-            } = await client.mutate({
+            await client.mutate({
               mutation: ARTISAN_REGISTER,
               variables: {
                 artisan: {

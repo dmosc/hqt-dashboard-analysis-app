@@ -1,0 +1,5 @@
+# AWS
+enum s3FolderKey {
+  profileImages
+  resources
+}

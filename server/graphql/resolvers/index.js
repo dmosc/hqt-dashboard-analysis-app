@@ -1,3 +1,5 @@
+import {GraphQLUpload} from 'graphql-upload';
+
 //User
 import userQueries from './user/queries';
 import userMutations from './user/mutations';
@@ -30,6 +32,13 @@ import productTypeMutations from './productType/mutations';
 import transactionQueries from './transaction/queries';
 import transactionMutations from './transaction/mutations';
 
+//Resource
+import resourceQueries from './resource/queries';
+import resourceMutations from './resource/mutations';
+
+// AWS Stuff
+import uploaders from './aws/uploaders';
+
 const resolvers = {
   Query: {
     ...userQueries,
@@ -39,6 +48,7 @@ const resolvers = {
     ...productQueries,
     ...productTypeQueries,
     ...transactionQueries,
+    ...resourceQueries,
   },
   Mutation: {
     ...userMutations,
@@ -49,7 +59,10 @@ const resolvers = {
     ...garmentMutations,
     ...productTypeMutations,
     ...transactionMutations,
+    ...resourceMutations,
+    ...uploaders, // AWS
   },
+  Upload: GraphQLUpload,
 };
 
 export default resolvers;

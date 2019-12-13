@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
+import {withApollo} from 'react-apollo';
+import {Form} from 'antd';
 import Layout from 'components/layout/admin';
 import Container from 'components/common/container';
+import ResourceForm from './components/resource-form';
+import ResourceList from './components/resource-list/index';
 
 class DashboardResources extends Component {
-  state = {};
   render() {
     const {collapsed, onCollapse, user} = this.props;
+
+    const ResourceRegisterForm = Form.create({name: 'origin'})(ResourceForm);
+
     return (
       <Layout
         collapsed={collapsed}
@@ -13,16 +19,15 @@ class DashboardResources extends Component {
         page="Resources"
         user={user}
       >
-        <Container display="flex" justifycontent="center" alignitems="center">
-          <img
-            src="/static/images/section_under_construction.png"
-            alt="Under Construction!"
-          />
-          <h1 style={{fontSize: 40}}>Section under construction...</h1>
+        <Container title="Registrar nuevo recurso" alignitems="center">
+          <ResourceRegisterForm user={user} />
+        </Container>
+        <Container title="Recursos" height="80vh" alignitems="center">
+          <ResourceList />
         </Container>
       </Layout>
     );
   }
 }
 
-export default DashboardResources;
+export default withApollo(DashboardResources);

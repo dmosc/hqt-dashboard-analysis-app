@@ -1,0 +1,14 @@
+type Resource {
+  name: String!
+  link: String!
+  date: Date!
+}
+
+input ResourceInput {
+  name: String!
+  link: String!
+}
+
+input ResourceFilters {
+  limit: Int!
+}
