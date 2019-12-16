@@ -63,7 +63,7 @@ class PieChart extends Component {
           {data.map((entry, i) => (
             <Cell
               key={`cell-${i}`}
-              fill={entry.name === 'ins' ? 'green' : 'red'}
+              fill={entry.name === 'ins' ? '#52c41a' : 'red'}
             />
           ))}
         </Pie>

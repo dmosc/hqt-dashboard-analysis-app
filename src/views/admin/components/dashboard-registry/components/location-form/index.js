@@ -3,6 +3,7 @@ import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
 import {Form, List, Icon, Input, Button} from 'antd';
 import ListContainer from './components/list';
+import EditForm from './components/edit-form';
 import {LOCATION_REGISTER} from './graphql/mutations';
 import {GET_LOCATIONS} from './graphql/queries';
 
@@ -11,6 +12,7 @@ class LocationForm extends Component {
     loading: false,
     loadingLocations: false,
     locations: [],
+    currentLocation: null,
   };
 
   componentDidMount = async () => {
@@ -77,9 +79,13 @@ class LocationForm extends Component {
     });
   };
 
+  setCurrentLocation = currentLocation => this.setState({currentLocation});
+
   render() {
     const {form} = this.props;
-    const {loading, loadingLocations, locations} = this.state;
+    const {loading, loadingLocations, locations, currentLocation} = this.state;
+
+    const LocationEditForm = Form.create({name: 'locationEdit'})(EditForm);
 
     return (
       <React.Fragment>
@@ -123,7 +129,14 @@ class LocationForm extends Component {
             dataSource={locations}
             size="small"
             renderItem={location => (
-              <List.Item actions={[<Icon type="edit" />]}>
+              <List.Item
+                actions={[
+                  <Icon
+                    type="edit"
+                    onClick={() => this.setCurrentLocation(location)}
+                  />,
+                ]}
+              >
                 <List.Item.Meta
                   title={location.name}
                   description={`${location.address}`}
@@ -131,6 +144,12 @@ class LocationForm extends Component {
               </List.Item>
             )}
           />
+          {currentLocation && (
+            <LocationEditForm
+              setCurrentLocation={this.setCurrentLocation}
+              currentLocation={currentLocation}
+            />
+          )}
         </ListContainer>
       </React.Fragment>
     );

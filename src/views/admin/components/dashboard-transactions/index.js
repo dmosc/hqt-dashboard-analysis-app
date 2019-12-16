@@ -6,6 +6,7 @@ import Layout from 'components/layout/admin';
 import Container from 'components/common/container';
 import TransactionCard from './components/transaction';
 import TransactionForm from './components/transaction-form';
+import EditForm from './components/edit-form';
 import {GET_TRANSACTIONS, GET_DAY_RESULTS} from './graphql/queries';
 import Results from './results/index';
 
@@ -14,6 +15,7 @@ class DashboardTransactions extends Component {
     loading: false,
     loadingResults: false,
     transactions: [],
+    currentTransaction: null,
     total: 0,
     ins: 0,
     outs: 0,
@@ -86,6 +88,9 @@ class DashboardTransactions extends Component {
     this.setState({transactions, total, ins, outs});
   };
 
+  setCurrentTransaction = currentTransaction =>
+    this.setState({currentTransaction});
+
   render() {
     const {collapsed, onCollapse, user} = this.props;
     const {
@@ -95,10 +100,14 @@ class DashboardTransactions extends Component {
       total,
       ins,
       outs,
+      currentTransaction,
     } = this.state;
 
     const TransactionRegisterForm = Form.create({name: 'origin'})(
       TransactionForm
+    );
+    const TransactionEditForm = Form.create({name: 'transactionEdit'})(
+      EditForm
     );
 
     return (
@@ -132,10 +141,18 @@ class DashboardTransactions extends Component {
                     <TransactionCard
                       key={transaction.id}
                       transaction={transaction}
+                      setCurrentTransaction={this.setCurrentTransaction}
                     />
                   ))) ||
                 'No hay transacciones registradas'}
             </Container>
+            {currentTransaction && (
+              <TransactionEditForm
+                currentTransaction={currentTransaction}
+                setCurrentTransaction={this.setCurrentTransaction}
+              />
+            )}
+            }
           </Col>
         </Row>
       </Layout>

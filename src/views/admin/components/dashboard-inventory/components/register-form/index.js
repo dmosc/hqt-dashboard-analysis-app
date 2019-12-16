@@ -64,28 +64,26 @@ class RegisterForm extends Component {
     const {form, visible, locations} = this.props;
 
     return (
-      <React.Fragment>
-        <Modal
-          title="Register form"
-          visible={visible}
-          onOk={this.handleSubmit}
-          onCancel={this.handleCancel}
-        >
-          <Form>
-            <Form.Item>
-              {form.getFieldDecorator('location')(
-                <Select placeholder="Location">
-                  {locations.map(({id, name}, i) => (
-                    <Option key={i} value={id}>
-                      {`${name}`}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </Form.Item>
-          </Form>
-        </Modal>
-      </React.Fragment>
+      <Modal
+        title="Register form"
+        visible={visible}
+        onOk={this.handleSubmit}
+        onCancel={this.handleCancel}
+      >
+        <Form>
+          <Form.Item>
+            {form.getFieldDecorator('location')(
+              <Select placeholder="Location">
+                {locations.map(({id, name}, i) => (
+                  <Option key={i} value={id}>
+                    {`${name}`}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
+        </Form>
+      </Modal>
     );
   }
 }

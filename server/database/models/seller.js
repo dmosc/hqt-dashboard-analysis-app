@@ -12,9 +12,7 @@ const Seller = User.discriminator(
       required: true,
       default: 'SELLER',
     },
-    soldProducts: [
-      {type: Schema.Types.ObjectId, ref: 'Product', unique: true, default: []},
-    ],
+    soldProducts: [{type: Schema.Types.ObjectId, ref: 'Product', default: []}],
   })
 );
 

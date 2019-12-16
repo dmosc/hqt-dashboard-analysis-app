@@ -52,9 +52,9 @@ const DashboardAnalytics = Loadable({
   loading: TopBarProgress,
 });
 
-/* webpackChunkName: "DashboardArtisans" */
-const DashboardArtisans = Loadable({
-  loader: () => import('./components/dashboard-artisans'),
+/* webpackChunkName: "DashboardSales" */
+const DashboardSales = Loadable({
+  loader: () => import('./components/dashboard-sales'),
   loading: TopBarProgress,
 });
 
@@ -76,9 +76,7 @@ class Admin extends Component {
     collapsed: false,
   };
 
-  onCollapse = collapsed => {
-    this.setState({collapsed});
-  };
+  onCollapse = collapsed => this.setState({collapsed});
 
   componentDidMount = async () => {
     const {client} = this.props;
@@ -157,9 +155,9 @@ class Admin extends Component {
           )}
         />
         <Route
-          path="/admin/artisans"
+          path="/admin/sales"
           render={() => (
-            <DashboardArtisans
+            <DashboardSales
               collapsed={collapsed}
               onCollapse={this.onCollapse}
               user={user}

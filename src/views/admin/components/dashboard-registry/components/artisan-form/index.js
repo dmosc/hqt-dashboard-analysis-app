@@ -3,7 +3,8 @@ import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
 import {Form, List, Icon, Input, Button, Select} from 'antd';
 import {ARTISAN_REGISTER} from './graphql/mutations';
-import ListContainer from './components/list/index';
+import ListContainer from './components/list';
+import EditForm from './components/edit-form';
 import {GET_ORIGINS, GET_ARTISANS} from './graphql/queries';
 
 const {Option} = Select;
@@ -14,6 +15,7 @@ class ArtisanForm extends Component {
     loadingArtisans: false,
     origins: [],
     artisans: [],
+    currentArtisan: null,
   };
 
   componentDidMount = async () => {
@@ -87,10 +89,19 @@ class ArtisanForm extends Component {
     );
   };
 
+  setCurrentArtisan = currentArtisan => this.setState({currentArtisan});
+
   render() {
     const {form} = this.props;
-    const {loading, loadingArtisans, origins, artisans} = this.state;
+    const {
+      loading,
+      loadingArtisans,
+      origins,
+      artisans,
+      currentArtisan,
+    } = this.state;
 
+    const ArtisanEditForm = Form.create({name: 'artisanEdit'})(EditForm);
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit} className="login-form">
@@ -168,7 +179,7 @@ class ArtisanForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere..') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>
@@ -179,7 +190,14 @@ class ArtisanForm extends Component {
             dataSource={artisans}
             size="small"
             renderItem={artisan => (
-              <List.Item actions={[<Icon type="edit" />]}>
+              <List.Item
+                actions={[
+                  <Icon
+                    type="edit"
+                    onClick={() => this.setCurrentArtisan(artisan)}
+                  />,
+                ]}
+              >
                 <List.Item.Meta
                   title={`${artisan.lastName}, ${artisan.firstName}`}
                   description={`${artisan.origin.code}`}
@@ -187,6 +205,13 @@ class ArtisanForm extends Component {
               </List.Item>
             )}
           />
+          {currentArtisan && (
+            <ArtisanEditForm
+              setCurrentArtisan={this.setCurrentArtisan}
+              currentArtisan={currentArtisan}
+              origins={origins}
+            />
+          )}
         </ListContainer>
       </React.Fragment>
     );

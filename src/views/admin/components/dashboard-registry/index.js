@@ -5,6 +5,7 @@ import Layout from 'components/layout/admin';
 import Container from 'components/common/container';
 import OriginForm from './components/origin-form';
 import LocationForm from './components/location-form';
+import SellerForm from './components/seller-form/index';
 import ArtisanForm from './components/artisan-form';
 import ProductTypeForm from './components/productType-form';
 
@@ -13,7 +14,8 @@ class DashboardRegistry extends Component {
     const {user, collapsed, onCollapse} = this.props;
     const OriginRegisterForm = Form.create({name: 'origin'})(OriginForm);
     const LocationRegisterForm = Form.create({name: 'location'})(LocationForm);
-    const ArtisanRegisterForm = Form.create({name: 'location'})(ArtisanForm);
+    const SellerRegisterForm = Form.create({name: 'location'})(SellerForm);
+    const ArtisanRegisterForm = Form.create({name: 'artisan'})(ArtisanForm);
     const ProductTypeRegisterForm = Form.create({name: 'productType'})(
       ProductTypeForm
     );
@@ -34,6 +36,9 @@ class DashboardRegistry extends Component {
           <Col span={6}>
             <Container title="Ubicaciones" alignitems="center">
               <LocationRegisterForm />
+            </Container>
+            <Container title="Vendendores" alignitems="center">
+              <SellerRegisterForm />
             </Container>
           </Col>
           <Col span={6}>

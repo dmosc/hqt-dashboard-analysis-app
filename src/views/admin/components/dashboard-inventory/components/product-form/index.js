@@ -18,7 +18,15 @@ class ProductForm extends Component {
     form.validateFields(
       async (
         e,
-        {productName, productType, dateReceived, retailPrice, artisan, location}
+        {
+          productName,
+          productType,
+          dateReceived,
+          retailPrice,
+          artisan,
+          location,
+          commission,
+        }
       ) => {
         if (!e) {
           const [artisanId, originId] = artisan.split(':');
@@ -29,6 +37,7 @@ class ProductForm extends Component {
             retailPrice,
             artisan: artisanId,
             origin: originId,
+            commission,
           };
 
           if (location) product.location = location;
@@ -51,11 +60,11 @@ class ProductForm extends Component {
               duration: 3000,
               closeable: true,
             });
+
             form.resetFields();
+            window.location.reload();
           } catch (e) {
-            e['graphQLErrors'].map(({message}) =>
-              toast(message, 'error', {duration: 3000, closeable: true})
-            );
+            toast(e, 'error', {duration: 3000, closeable: true});
             this.setState({loading: false});
           }
         } else {
@@ -149,6 +158,16 @@ class ProductForm extends Component {
                 </Option>
               ))}
             </Select>
+          )}
+        </Form.Item>
+        <Form.Item label="Comisión" style={{color: 'rgba(0,0,0,.25)'}}>
+          {form.getFieldDecorator('commission', {initialValue: 0})(
+            <InputNumber
+              style={{width: '100%'}}
+              placeholder="Comisión en MXN"
+              min={0}
+              step={0.1}
+            />
           )}
         </Form.Item>
         <Form.Item>

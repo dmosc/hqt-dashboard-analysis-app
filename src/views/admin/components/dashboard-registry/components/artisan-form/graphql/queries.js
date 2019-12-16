@@ -18,6 +18,9 @@ const GET_ARTISANS = gql`
       id
       firstName
       lastName
+      username
+      email
+      password
       origin {
         id
         municipality

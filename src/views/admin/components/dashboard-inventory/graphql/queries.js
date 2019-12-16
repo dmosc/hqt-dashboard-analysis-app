@@ -42,9 +42,14 @@ const GET_INVENTORY = gql`
       production {
         id
         productName
+        code
         productType
         dateReceived
         retailPrice
+        seller {
+          firstName
+          lastName
+        }
         artisan {
           code
         }
@@ -52,9 +57,14 @@ const GET_INVENTORY = gql`
       stock {
         id
         productName
+        code
         productType
         dateReceived
         retailPrice
+        seller {
+          firstName
+          lastName
+        }
         artisan {
           code
         }
@@ -65,10 +75,15 @@ const GET_INVENTORY = gql`
       dispatched {
         id
         productName
+        code
         productType
         dateReceived
         dateSold
         retailPrice
+        seller {
+          firstName
+          lastName
+        }
         artisan {
           code
         }

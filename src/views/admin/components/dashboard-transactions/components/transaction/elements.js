@@ -13,15 +13,15 @@ const TransactionCardContainer = styled(Card)`
 
 const Amount = styled.div`
   padding: 0px;
-  color: ${props => (props.type === 'IN' ? 'green' : 'red')};
+  color: ${props => (props.type === 'IN' ? '#52c41a' : 'red')};
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.1vw;
 `;
 const Payment = styled.div`
   padding: 0px;
   color: black;
   font-weight: 400;
-  font-size: 0.7rem;
+  font-size: 0.7vw;
 `;
 
 export {TransactionCardContainer, Amount, Payment};

@@ -19,7 +19,7 @@ const Sidebar = ({collapsed, onCollapse}) => {
           {icon: 'unordered-list', title: 'Inventory'},
           {icon: 'dollar', title: 'Transactions'},
           {icon: 'pie-chart', title: 'Data analytics'},
-          {icon: 'team', title: 'Artisans'},
+          {icon: 'team', title: 'Sales'},
           {icon: 'calendar', title: 'Events'},
           {icon: 'folder', title: 'Resources'},
         ]}

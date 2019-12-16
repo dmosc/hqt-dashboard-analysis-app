@@ -10,6 +10,7 @@ const GET_TRANSACTIONS = gql`
       description
       amount
       date
+      product
     }
   }
 `;

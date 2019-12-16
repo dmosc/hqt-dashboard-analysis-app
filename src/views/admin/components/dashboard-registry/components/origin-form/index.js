@@ -3,6 +3,7 @@ import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
 import {Form, List, Icon, Input, Button, InputNumber} from 'antd';
 import ListContainer from './components/list';
+import EditForm from './components/edit-form';
 import {ORIGIN_REGISTER} from './graphql/mutations';
 import {GET_ORIGINS} from './graphql/queries';
 
@@ -11,6 +12,7 @@ class OriginForm extends Component {
     loading: false,
     loadingOrigins: false,
     origins: [],
+    currentOrigin: null,
   };
 
   componentDidMount = async () => {
@@ -77,13 +79,17 @@ class OriginForm extends Component {
     });
   };
 
+  setCurrentOrigin = currentOrigin => this.setState({currentOrigin});
+
   render() {
     const {form} = this.props;
-    const {loading, loadingOrigins, origins} = this.state;
+    const {loading, loadingOrigins, origins, currentOrigin} = this.state;
+
+    const OriginEditForm = Form.create({name: 'originEdit'})(EditForm);
 
     return (
       <React.Fragment>
-        <Form onSubmit={this.handleSubmit} className="origin-form">
+        <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {form.getFieldDecorator('municipality', {
               rules: [{required: true, message: 'Municipality is required!'}],
@@ -127,7 +133,7 @@ class OriginForm extends Component {
               icon="save"
               loading={loading}
             >
-              {(loading && 'Wait..') || 'Save'}
+              {(loading && 'Espere..') || 'Guardar'}
             </Button>
           </Form.Item>
         </Form>
@@ -138,7 +144,14 @@ class OriginForm extends Component {
             dataSource={origins}
             size="small"
             renderItem={origin => (
-              <List.Item actions={[<Icon type="edit" />]}>
+              <List.Item
+                actions={[
+                  <Icon
+                    type="edit"
+                    onClick={() => this.setCurrentOrigin(origin)}
+                  />,
+                ]}
+              >
                 <List.Item.Meta
                   title={origin.code}
                   description={`${origin.municipality}, ${origin.community}, ${origin.group}`}
@@ -146,6 +159,12 @@ class OriginForm extends Component {
               </List.Item>
             )}
           />
+          {currentOrigin && (
+            <OriginEditForm
+              setCurrentOrigin={this.setCurrentOrigin}
+              currentOrigin={currentOrigin}
+            />
+          )}
         </ListContainer>
       </React.Fragment>
     );

@@ -3,6 +3,7 @@ import {withApollo} from 'react-apollo';
 import toast from 'toast-me';
 import {Form, List, Icon, Input, Button} from 'antd';
 import ListContainer from './components/list';
+import EditForm from './components/edit-form';
 import {PRODUCT_TYPE_REGISTER} from './graphql/mutations';
 import {GET_PRODUCT_TYPES} from './graphql/queries';
 
@@ -12,6 +13,7 @@ class ProductTypeForm extends Component {
     codeSuggestion: '',
     loadingProductTypes: false,
     productTypes: [],
+    currentProductType: null,
   };
 
   componentDidMount = async () => {
@@ -48,7 +50,7 @@ class ProductTypeForm extends Component {
           } = await client.mutate({
             mutation: PRODUCT_TYPE_REGISTER,
             variables: {
-              productType: {name, code},
+              productType: {name, code: code.toString().toUpperCase()},
             },
           });
 
@@ -74,6 +76,9 @@ class ProductTypeForm extends Component {
     });
   };
 
+  setCurrentProductType = currentProductType =>
+    this.setState({currentProductType});
+
   handleProductTypeChange = productType => {
     if (productType.length > 3)
       this.setState({
@@ -92,7 +97,10 @@ class ProductTypeForm extends Component {
       codeSuggestion,
       loadingProductTypes,
       productTypes,
+      currentProductType,
     } = this.state;
+
+    const ProductTypeEditForm = Form.create({name: 'originEdit'})(EditForm);
 
     return (
       <React.Fragment>
@@ -146,7 +154,14 @@ class ProductTypeForm extends Component {
               dataSource={productTypes}
               size="small"
               renderItem={productType => (
-                <List.Item actions={[<Icon type="edit" />]}>
+                <List.Item
+                  actions={[
+                    <Icon
+                      type="edit"
+                      onClick={() => this.setCurrentProductType(productType)}
+                    />,
+                  ]}
+                >
                   <List.Item.Meta
                     title={productType.code}
                     description={`${productType.name}`}
@@ -156,6 +171,12 @@ class ProductTypeForm extends Component {
             />
           )) ||
             'Ningún tipo de producto registrado'}
+          {currentProductType && (
+            <ProductTypeEditForm
+              setCurrentProductType={this.setCurrentProductType}
+              currentProductType={currentProductType}
+            />
+          )}
         </ListContainer>
       </React.Fragment>
     );

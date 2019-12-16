@@ -98,17 +98,17 @@ class DashboardInventory extends Component {
           taskIds: [],
         },
       };
-      inventory.production.forEach(({id, productName}) => {
-        tasks[id] = {id, content: productName};
-        columns.production.taskIds.push(id);
+      inventory.production.forEach(product => {
+        tasks[product.id] = {id: product.id, product};
+        columns.production.taskIds.push(product.id);
       });
-      inventory.stock.forEach(({id, productName}) => {
-        tasks[id] = {id, content: productName};
-        columns.stock.taskIds.push(id);
+      inventory.stock.forEach(product => {
+        tasks[product.id] = {id: product.id, product};
+        columns.stock.taskIds.push(product.id);
       });
-      inventory.dispatched.forEach(({id, productName}) => {
-        tasks[id] = {id, content: productName};
-        columns.dispatched.taskIds.push(id);
+      inventory.dispatched.forEach(product => {
+        tasks[product.id] = {id: product.id, product};
+        columns.dispatched.taskIds.push(product.id);
       });
 
       const newInfo = {...info, tasks, columns, columnOrder};

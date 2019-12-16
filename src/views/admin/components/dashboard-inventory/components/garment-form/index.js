@@ -13,7 +13,7 @@ class GarmentForm extends Component {
     rawMaterialsPrice: 0,
     workforceCost: 0,
     totalHoursToProduce: 0,
-    retailPrice: 0,
+    productionPrice: 0,
   };
 
   handleSubmit = e => {
@@ -33,6 +33,8 @@ class GarmentForm extends Component {
           rawMaterialsPrice,
           workforceCost,
           totalHoursToProduce,
+          productionPrice,
+          commission,
         }
       ) => {
         if (!e) {
@@ -47,6 +49,8 @@ class GarmentForm extends Component {
             rawMaterialsPrice,
             workforceCost,
             totalHoursToProduce,
+            productionPrice,
+            commission,
           };
 
           if (location) garment.location = location;
@@ -71,6 +75,7 @@ class GarmentForm extends Component {
             });
 
             form.resetFields();
+            window.location.reload();
           } catch (e) {
             e['graphQLErrors'].map(({message}) =>
               toast(message, 'error', {duration: 3000, closeable: true})
@@ -85,9 +90,9 @@ class GarmentForm extends Component {
   };
 
   handleChange = (key, val) =>
-    this.setState({[key]: val}, this.calculateRetailPrice);
+    this.setState({[key]: val}, this.calculateProductionPrice);
 
-  calculateRetailPrice = () => {
+  calculateProductionPrice = () => {
     const {
       weight,
       rawMaterialsPrice,
@@ -97,22 +102,13 @@ class GarmentForm extends Component {
 
     const productionPrice =
       totalHoursToProduce * workforceCost + (weight / 1000) * rawMaterialsPrice;
-    const retailPrice =
-      productionPrice +
-      (productionPrice <= 200
-        ? 100
-        : productionPrice <= 600
-        ? 150
-        : productionPrice <= 1000
-        ? 170
-        : 220);
 
-    this.setState({retailPrice});
+    this.setState({productionPrice});
   };
 
   render() {
     const {form, artisans, locations, productTypes} = this.props;
-    const {loading, retailPrice} = this.state;
+    const {loading, productionPrice} = this.state;
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -155,7 +151,11 @@ class GarmentForm extends Component {
             ],
           })(
             <InputNumber
-              onChange={value => this.handleChange('weight', value)}
+              onChange={value =>
+                typeof value === 'number'
+                  ? this.handleChange('weight', value)
+                  : null
+              }
               style={{width: '100%'}}
               placeholder="Peso de la prenda en gramos"
               min={0}
@@ -170,7 +170,11 @@ class GarmentForm extends Component {
             ],
           })(
             <InputNumber
-              onChange={value => this.handleChange('rawMaterialsPrice', value)}
+              onChange={value =>
+                typeof value === 'number'
+                  ? this.handleChange('rawMaterialsPrice', value)
+                  : null
+              }
               style={{width: '100%'}}
               placeholder="$ Costo de materia prima en MXN/KG"
               min={0}
@@ -188,7 +192,11 @@ class GarmentForm extends Component {
             ],
           })(
             <InputNumber
-              onChange={value => this.handleChange('workforceCost', value)}
+              onChange={value =>
+                typeof value === 'number'
+                  ? this.handleChange('workforceCost', value)
+                  : null
+              }
               style={{width: '100%'}}
               placeholder="Mano de obra en MXN/HR"
               min={0}
@@ -207,7 +215,9 @@ class GarmentForm extends Component {
           })(
             <InputNumber
               onChange={value =>
-                this.handleChange('totalHoursToProduce', value)
+                typeof value === 'number'
+                  ? this.handleChange('totalHoursToProduce', value)
+                  : null
               }
               style={{width: '100%'}}
               placeholder="Horas totales de producción"
@@ -250,7 +260,38 @@ class GarmentForm extends Component {
             </Select>
           )}
         </Form.Item>
-        <span>{`Costo estimado: ${retailPrice}`}</span>
+        <Form.Item
+          label="Precio de producción"
+          style={{color: 'rgba(0,0,0,.25)'}}
+        >
+          {form.getFieldDecorator('productionPrice', {
+            initialValue: productionPrice,
+          })(
+            <InputNumber
+              onChange={value =>
+                typeof value === 'number'
+                  ? this.handleChange('productionPrice', value)
+                  : null
+              }
+              style={{width: '100%'}}
+              placeholder={
+                productionPrice === 0 ? 'Costo de producción' : productionPrice
+              }
+              min={0}
+              step={0.1}
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="Comisión" style={{color: 'rgba(0,0,0,.25)'}}>
+          {form.getFieldDecorator('commission', {initialValue: 0})(
+            <InputNumber
+              style={{width: '100%'}}
+              placeholder="Comisión en MXN"
+              min={0}
+              step={0.1}
+            />
+          )}
+        </Form.Item>
         <Form.Item>
           <Button
             type="primary"
