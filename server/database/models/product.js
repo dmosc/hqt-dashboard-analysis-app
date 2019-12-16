@@ -18,6 +18,8 @@ const ProductSchema = new Schema(
     artisan: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     origin: {type: Schema.Types.ObjectId, ref: 'Origin', required: true},
     location: {type: Schema.Types.ObjectId, ref: 'Location'},
+    commission: {type: Number, required: true, default: 0},
+    proofOfCommissionPayment: {type: String},
   },
   {discriminatorKey: 'kind'}
 );

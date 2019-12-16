@@ -5,15 +5,25 @@ import {User, ProductType, Transaction} from '../../../database/models';
 const productMutations = {
   product: authenticated(async (_, args) => {
     const product = new Product({...args.product});
-    const artisan = await Artisan.findById(product.artisan);
-    const productType = await ProductType.findById(product.productType).select(
-      '_id code'
+    const artisan = await Artisan.findById(product.artisan).select(
+      'code products'
     );
+    const productType = await ProductType.findOneAndUpdate(
+      {_id: product.productType},
+      {$inc: {count: 1}},
+      {new: false}
+    ).select('_id code count');
 
     if (!artisan) throw new Error('Artisan does not exists!');
     if (!productType) throw new Error('Product Type does not exists!');
 
-    product.code = artisan.code.toString() + '-' + productType.code.toString();
+    product.code =
+      artisan.code.toString() +
+      artisan.products.length.toString() +
+      '-' +
+      productType.code.toString() +
+      '-' +
+      productType.count.toString();
 
     artisan.products.push(product._id);
 
@@ -29,10 +39,11 @@ const productMutations = {
     try {
       const oldProduct = await Product.findById(args.product.id);
       const seller = await User.findOne({username: args.product.seller}).select(
-        'id'
+        'id soldProducts'
       );
 
-      if (!oldProduct) throw new Error('Product is not available!');
+      if (!oldProduct || oldProduct.seller)
+        throw new Error('Product is not available!');
       if (!seller) throw new Error('Seller is not registered!');
 
       const product = await Product.findOneAndUpdate(
@@ -51,7 +62,10 @@ const productMutations = {
         product: product.id,
       });
 
+      seller.soldProducts.push(product.id);
+
       await transaction.save();
+      await seller.save();
 
       return product;
     } catch (e) {
@@ -83,12 +97,17 @@ const productMutations = {
         {
           $unset: {seller: '', paymentMethod: '', dateSold: ''},
         },
-        {new: true}
+        {new: false}
       );
 
+      const seller = await User.findById(product.seller).select('soldProducts');
+      await seller.soldProducts.remove(product.id);
+
       if (!product) throw new Error('Product is not available!');
+      if (!seller) throw new Error('Seller is not available!');
 
       await Transaction.findOneAndRemove({product: product.id});
+      await seller.save();
 
       return product;
     } catch (e) {

@@ -8,6 +8,7 @@ const Garment = Product.discriminator(
     weight: {type: Number, required: true},
     workforceCost: {type: Number, required: true},
     totalHoursToProduce: {type: Number, required: true},
+    markup: {type: Number, required: true},
   })
 );
 

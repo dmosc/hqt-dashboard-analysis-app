@@ -16,12 +16,22 @@ type Artisan {
 
 # Inputs
 input ArtisanRegister {
+  firstName: String!
+  lastName: String!
   username: String!
   email: String
   password: String
   origin: ID!
+}
+
+input ArtisanEdit {
+  id: ID!
   firstName: String!
   lastName: String!
+  username: String!
+  email: String
+  password: String
+  origin: ID!
 }
 
 input ArtisanFilters {

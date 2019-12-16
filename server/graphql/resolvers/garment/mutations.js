@@ -5,20 +5,19 @@ const garmentMutations = {
   garment: authenticated(async (_, args) => {
     const garment = new Garment({...args.garment});
 
-    const artisan = await Artisan.findById(garment.artisan);
-    const productType = await ProductType.findById(garment.productType).select(
-      '_id code'
+    const artisan = await Artisan.findById(garment.artisan).select(
+      'code products'
     );
+    const productType = await ProductType.findOneAndUpdate(
+      {_id: garment.productType},
+      {$inc: {count: 1}},
+      {new: false}
+    ).select('_id code count');
 
     if (!artisan) throw new Error('Artisan does not exists!');
     if (!productType) throw new Error('Product Type does not exists!');
 
-    const {weight, workforceCost, totalHoursToProduce} = garment;
-    const {rawMaterialsPrice} = args.garment;
-
-    const productionPrice =
-      totalHoursToProduce * workforceCost + (weight / 1000) * rawMaterialsPrice;
-
+    const {productionPrice} = garment;
     const retailPrice =
       productionPrice +
       (productionPrice <= 200
@@ -30,9 +29,15 @@ const garmentMutations = {
         : 220);
 
     delete garment.rawMaterialsPrice;
-    garment.productionPrice = productionPrice;
     garment.retailPrice = retailPrice;
-    garment.code = artisan.code.toString() + '-' + productType.code.toString();
+    garment.markup = retailPrice - productionPrice;
+    garment.code =
+      artisan.code.toString() +
+      artisan.products.length.toString() +
+      '-' +
+      productType.code.toString() +
+      '-' +
+      productType.count.toString();
 
     artisan.products.push(garment._id);
 

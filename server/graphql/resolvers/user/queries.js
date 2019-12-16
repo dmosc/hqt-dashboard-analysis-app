@@ -9,12 +9,6 @@ const userQueries = {
     if (!user) throw new ApolloError('User not found');
     else return user;
   },
-  sellers: async (_, {filters: {limit}}) => {
-    const sellers = await User.find({}).limit(limit || 10);
-
-    if (!sellers) throw new ApolloError('No users registered!');
-    else return sellers;
-  },
 };
 
 export default userQueries;

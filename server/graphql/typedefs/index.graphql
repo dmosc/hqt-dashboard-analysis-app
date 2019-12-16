@@ -1,11 +1,13 @@
 # import * from "user.graphql"
 # import * from "artisan.graphql"
+# import * from "seller.graphql"
 # import * from "origin.graphql"
 # import * from "location.graphql"
 # import * from "product.graphql"
 # import * from "garment.graphql"
 # import * from "productType.graphql"
 # import * from "transaction.graphql"
+# import * from "seller.graphql"
 # import * from "resource.graphql"
 # import * from "others.graphql"
 
@@ -19,10 +21,13 @@ directive @auth(roles: [Role]) on FIELD_DEFINITION
 type Query {
   # User
   user(id: ID!): User # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
-  sellers(filters: SellerFilters!): [Seller!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Artisan
   artisan(id: ID!): Artisan # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   artisans(filters: ArtisanFilters!): [Artisan!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Seller
+  seller(id: ID!): Seller # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  sellers(filters: SellerFilters!): [Seller!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  sales(filters: SaleFilters!): [SellerResults!]! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Origin
   origin(id: ID!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   origins(filters: OriginFilters!): [Origin!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
@@ -48,13 +53,19 @@ type Query {
 type Mutation {
   # User
   register(user: UserRegister!): String! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  login(user: UserLogin!): String! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Artisan
   artisan(artisan: ArtisanRegister!): Artisan # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
-  login(user: UserLogin!): String! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  artisanEdit(artisan: ArtisanEdit!): Artisan # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Seller
+  seller(seller: SellerInput!): Seller
+  sellerEdit(seller: SellerEdit!): Seller # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Origin
   origin(origin: OriginInput!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  originEdit(origin: OriginEdit!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Location
   location(location: LocationInput!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  locationEdit(location: LocationEdit!): Location # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Product
   product(product: ProductInput!): Product
   garment(garment: GarmentInput!): Product
@@ -62,9 +73,11 @@ type Mutation {
   receive(product: ProductReceiveInput!): Product
   return(product: ProductReturnInput!): Product
   # ProductType
-  productType(productType: ProductTypeInput!): ProductType
+  productType(productType: ProductTypeInput!): ProductType # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  productTypeEdit(productType: ProductTypeEdit!): ProductType # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Transaction
   transaction(transaction: TransactionInput!): Transaction
+  transactionEdit(transaction: TransactionEdit!): Transaction # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Resource
   resource(resource: ResourceInput!): Resource
   # AWS

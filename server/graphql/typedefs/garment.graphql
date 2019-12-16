@@ -7,6 +7,8 @@ type Garment {
   dateReceived: Date!
   dateSold: Date
   retailPrice: Float!
+  productionPrice: Float!
+  markup: Float!
   seller: ID
   artisan: ID!
   origin: ID!
@@ -14,6 +16,8 @@ type Garment {
   weight: Float!
   workforceCost: Float!
   totalHoursToProduce: Int!
+  commission: Float!
+  proofOfCommissionPayment: String
 }
 
 # Inputs
@@ -24,8 +28,10 @@ input GarmentInput {
   artisan: ID!
   origin: ID!
   location: ID
+  productionPrice: Float!
   weight: Float!
   workforceCost: Float!
   totalHoursToProduce: Int!
   rawMaterialsPrice: Int!
+  commission: Float
 }

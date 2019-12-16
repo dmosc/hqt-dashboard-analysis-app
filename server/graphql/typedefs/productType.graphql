@@ -11,6 +11,12 @@ input ProductTypeInput {
   code: String!
 }
 
+input ProductTypeEdit {
+  id: ID!
+  name: String
+  code: String
+}
+
 input ProductTypeFilters {
   limit: Int
 }

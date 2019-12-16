@@ -1,0 +1,46 @@
+# Types
+type Seller {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  username: String!
+  email: String
+  password: String
+  role: Role!
+  profileImage: String
+  active: Boolean
+  soldProducts: [ID!]!
+}
+
+type SellerResults {
+  seller: Seller!
+  products: [Product!]
+  commissions: [Product!]!
+  sales: [Product!]!
+  total: Float!
+}
+
+# Inputs
+input SellerInput {
+  firstName: String!
+  username: String!
+  email: String
+  password: String
+  profileImage: String
+}
+
+input SellerEdit {
+  id: ID!
+  firstName: String
+  username: String
+  email: String
+  password: String
+  profileImage: String
+}
+
+input SellerFilters {
+  limit: Int
+}
+input SaleFilters {
+  limit: Int
+}

@@ -29,7 +29,7 @@ const productQueries = {
     const dispatched = await Product.find({
       location: {$exists: true},
       dateSold: {$exists: true},
-    }).populate('artisan origin location');
+    }).populate('artisan origin location seller');
 
     return {production, stock, dispatched};
   },

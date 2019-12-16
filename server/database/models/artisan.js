@@ -13,9 +13,8 @@ const Artisan = User.discriminator(
       required: true,
       default: 'ARTISAN',
     },
-    products: [
-      {type: Schema.Types.ObjectId, ref: 'Product', unique: true, default: []},
-    ],
+    products: [{type: Schema.Types.ObjectId, ref: 'Product', default: []}],
+    soldProducts: [{type: Schema.Types.ObjectId, ref: 'Product', default: []}],
   })
 );
 

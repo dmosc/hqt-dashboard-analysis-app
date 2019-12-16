@@ -5,13 +5,15 @@ type Product {
   productName: String!
   productType: String!
   paymentMethod: String!
-  dateReceived: Date!
   dateSold: Date
   retailPrice: Float!
+  productionPrice: Float!
   seller: ID
   artisan: ID!
   origin: ID!
   location: ID
+  commission: Float!
+  proofOfCommissionPayment: String
 }
 
 type ProductInventory {
@@ -23,7 +25,7 @@ type ProductInventory {
   dateSold: Date
   retailPrice: Float!
   seller: User
-  artisan: Artisan!
+  artisan: Artisan
   origin: Origin!
   location: Location
 }
@@ -43,6 +45,7 @@ input ProductInput {
   artisan: ID!
   origin: ID!
   location: ID
+  commission: Float!
 }
 
 input ProductSellInput {

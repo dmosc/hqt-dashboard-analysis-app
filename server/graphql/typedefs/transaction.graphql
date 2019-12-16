@@ -40,6 +40,16 @@ input TransactionInput {
   product: ID
 }
 
+input TransactionEdit {
+  id: ID!
+  type: Type
+  paymentMethod: PaymentMethod
+  name: String
+  description: String
+  amount: Float
+  date: Date
+}
+
 input TransactionFilters {
   limit: Int!
 }

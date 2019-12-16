@@ -1,5 +1,6 @@
 export {default as User} from './user';
 export {default as Artisan} from './artisan';
+export {default as Seller} from './seller';
 export {default as Origin} from './origin';
 export {default as Location} from './location';
 export {default as Product} from './product';

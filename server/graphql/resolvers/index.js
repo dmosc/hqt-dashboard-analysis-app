@@ -8,6 +8,10 @@ import userMutations from './user/mutations';
 import artisanQueries from './artisan/queries';
 import artisanMutations from './artisan/mutations';
 
+//Sellers
+import sellerQueries from './seller/queries';
+import sellerMutations from './seller/mutations';
+
 //Origin
 import originQueries from './origin/queries';
 import originMutations from './origin/mutations';
@@ -43,6 +47,7 @@ const resolvers = {
   Query: {
     ...userQueries,
     ...artisanQueries,
+    ...sellerQueries,
     ...originQueries,
     ...locationQueries,
     ...productQueries,
@@ -53,6 +58,7 @@ const resolvers = {
   Mutation: {
     ...userMutations,
     ...artisanMutations,
+    ...sellerMutations,
     ...originMutations,
     ...locationMutations,
     ...productMutations,
