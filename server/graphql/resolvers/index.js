@@ -40,6 +40,10 @@ import transactionMutations from './transaction/mutations';
 import resourceQueries from './resource/queries';
 import resourceMutations from './resource/mutations';
 
+//Markup
+import markupQueries from './markup/queries';
+import markupMutations from './markup/mutations';
+
 // AWS Stuff
 import uploaders from './aws/uploaders';
 
@@ -54,6 +58,7 @@ const resolvers = {
     ...productTypeQueries,
     ...transactionQueries,
     ...resourceQueries,
+    ...markupQueries,
   },
   Mutation: {
     ...userMutations,
@@ -66,6 +71,7 @@ const resolvers = {
     ...productTypeMutations,
     ...transactionMutations,
     ...resourceMutations,
+    ...markupMutations,
     ...uploaders, // AWS
   },
   Upload: GraphQLUpload,

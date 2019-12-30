@@ -11,7 +11,7 @@ import {createUploadLink} from 'apollo-upload-client';
 import {setContext} from 'apollo-link-context';
 import ApolloClient from 'apollo-client';
 import {InMemoryCache} from 'apollo-cache-inmemory';
-import {LOCAL_SERVER_URI, SERVER_URI} from 'config';
+import {SERVER_URI} from 'config';
 
 const link = createUploadLink({
   uri: SERVER_URI,

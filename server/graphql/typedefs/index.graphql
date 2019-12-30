@@ -9,6 +9,7 @@
 # import * from "transaction.graphql"
 # import * from "seller.graphql"
 # import * from "resource.graphql"
+# import * from "markup.graphql"
 # import * from "others.graphql"
 
 # Scalars
@@ -48,6 +49,9 @@ type Query {
   # Resource
   resource(id: ID!): Resource # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   resources(filters: ResourceFilters!): [Resource!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  # Markup
+  markup(id: ID!): Markup # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  markups(filters: MarkupFilters!): [Markup!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
 }
 
 type Mutation {
@@ -80,6 +84,9 @@ type Mutation {
   transactionEdit(transaction: TransactionEdit!): Transaction # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Resource
   resource(resource: ResourceInput!): Resource
+  # Markup
+  markup(markup: MarkupInput!): Markup
+  markupEdit(markup: MarkupEdit!): Markup # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # AWS
   uploadFile(file: Upload!, folderKey: s3FolderKey!, id: ID!): String!
   uploadImage(image: Upload!, folderKey: s3FolderKey!, id: ID!): String!

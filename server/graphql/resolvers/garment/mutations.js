@@ -1,4 +1,4 @@
-import {Artisan, Garment, ProductType} from '../../../database/models';
+import {Artisan, Garment, ProductType, Markup} from '../../../database/models';
 import authenticated from '../../middleware/authenticated';
 
 const garmentMutations = {
@@ -18,15 +18,21 @@ const garmentMutations = {
     if (!productType) throw new Error('Product Type does not exists!');
 
     const {productionPrice} = garment;
-    const retailPrice =
-      productionPrice +
-      (productionPrice <= 200
-        ? 100
-        : productionPrice <= 600
-        ? 150
-        : productionPrice <= 1000
-        ? 170
-        : 220);
+    const {markup} = await Markup.findOne({
+      $or: [
+        {
+          $and: [
+            {low: {$lte: productionPrice}},
+            {high: {$gte: productionPrice}},
+          ],
+        },
+        {high: {$lte: productionPrice}},
+      ],
+    }).sort([['high', -1]]);
+
+    if (!markup) throw new Error('Register some markup prices first!');
+
+    const retailPrice = productionPrice + markup;
 
     delete garment.rawMaterialsPrice;
     garment.retailPrice = retailPrice;

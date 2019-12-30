@@ -8,3 +8,4 @@ export {default as Garment} from './garment';
 export {default as ProductType} from './productType';
 export {default as Transaction} from './transaction';
 export {default as Resource} from './resource';
+export {default as Markup} from './markup';

@@ -131,9 +131,9 @@ class ProductForm extends Component {
             rules: [{required: true, message: 'Seleccione una artesana!'}],
           })(
             <Select placeholder="Artesana">
-              {artisans.map(({id, firstName, lastName, origin}, i) => (
+              {artisans.map(({id, username, code, origin}, i) => (
                 <Option key={i} value={`${id}:${origin.id}`}>
-                  {`${origin.code} ${lastName} ${firstName[0]}.`}
+                  {`${code} ${username}`}
                 </Option>
               ))}
             </Select>

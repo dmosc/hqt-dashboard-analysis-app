@@ -8,6 +8,7 @@ import LocationForm from './components/location-form';
 import SellerForm from './components/seller-form/index';
 import ArtisanForm from './components/artisan-form';
 import ProductTypeForm from './components/productType-form';
+import MarkupForm from './components/markup-form/index';
 
 class DashboardRegistry extends Component {
   render() {
@@ -16,6 +17,7 @@ class DashboardRegistry extends Component {
     const LocationRegisterForm = Form.create({name: 'location'})(LocationForm);
     const SellerRegisterForm = Form.create({name: 'location'})(SellerForm);
     const ArtisanRegisterForm = Form.create({name: 'artisan'})(ArtisanForm);
+    const MarkupRegisterForm = Form.create({name: 'markup'})(MarkupForm);
     const ProductTypeRegisterForm = Form.create({name: 'productType'})(
       ProductTypeForm
     );
@@ -49,6 +51,9 @@ class DashboardRegistry extends Component {
           <Col span={6}>
             <Container title="Productos" alignitems="center">
               <ProductTypeRegisterForm />
+            </Container>
+            <Container title="Rangos de markup" alignitems="center">
+              <MarkupRegisterForm />
             </Container>
           </Col>
         </Row>

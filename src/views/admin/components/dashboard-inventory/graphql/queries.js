@@ -6,6 +6,8 @@ const GET_ARTISANS = gql`
       id
       firstName
       lastName
+      username
+      code
       origin {
         id
         municipality
@@ -37,8 +39,8 @@ const GET_PRODUCT_TYPES = gql`
 `;
 
 const GET_INVENTORY = gql`
-  query inventory {
-    inventory {
+  query inventory($filters: InventoryFilters!) {
+    inventory(filters: $filters) {
       production {
         id
         productName

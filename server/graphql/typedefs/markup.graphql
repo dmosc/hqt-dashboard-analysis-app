@@ -1,0 +1,23 @@
+type Markup {
+  id: ID!
+  low: Float!
+  high: Float!
+  markup: Float!
+}
+
+input MarkupInput {
+  low: Float!
+  high: Float!
+  markup: Float!
+}
+
+input MarkupEdit {
+  id: ID!
+  low: Float!
+  high: Float!
+  markup: Float!
+}
+
+input MarkupFilters {
+  limit: Int
+}
