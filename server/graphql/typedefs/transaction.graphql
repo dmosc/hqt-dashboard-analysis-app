@@ -51,9 +51,15 @@ input TransactionEdit {
 }
 
 input TransactionFilters {
-  limit: Int!
+  limit: Int
+  search: String
+  start: Date
+  end: Date
+  date: Int
+  paymentMethods: [PaymentMethod!]
 }
 
 input TransactionResultsFilters {
-  days: Int!
+  start: Date
+  end: Date
 }

@@ -5,12 +5,15 @@ import PieChart from 'components/common/charts/pie-chart';
 const {Title} = Typography;
 
 const Results = ({loading, total, ins, outs}) => {
+  const parsedTotal =
+    total < 0 ? `($${Math.abs(total).toString()})` : `$${total}`;
+
   return (
     <div>
       {(loading && <Icon type="loading" />) || (
         <Row type="flex" justify="space-around" align="middle">
           <Col span={12}>
-            <Title copyable level={4}>{`Total: ${total}`}</Title>
+            <Title copyable level={4}>{`Total: ${parsedTotal}`}</Title>
             <Title copyable level={4}>{`Transacciones: ${ins + outs}`}</Title>
           </Col>
           <Col span={12}>

@@ -15,7 +15,7 @@ const GET_TRANSACTIONS = gql`
   }
 `;
 
-const GET_DAY_RESULTS = gql`
+const GET_RESULTS = gql`
   query results($filters: TransactionResultsFilters!) {
     results(filters: $filters) {
       total
@@ -25,4 +25,4 @@ const GET_DAY_RESULTS = gql`
   }
 `;
 
-export {GET_TRANSACTIONS, GET_DAY_RESULTS};
+export {GET_TRANSACTIONS, GET_RESULTS};
