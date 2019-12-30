@@ -1,19 +1,21 @@
 import mongoose from 'mongoose';
-import {API_PORT, MONGO_DB_URI} from './config';
+import {API_PORT, HQT_MONGO_DB_URI} from './config';
 import server from './graphql';
 import app from './app';
 
 (async () => {
   try {
     await mongoose
-      .connect(MONGO_DB_URI, {
+      .connect(HQT_MONGO_DB_URI, {
         useNewUrlParser: true,
         useFindAndModify: false,
         useUnifiedTopology: true,
         useCreateIndex: true,
       })
       .then(() => {
-        console.log(`Succesfully connected to database: ${MONGO_DB_URI} 📀`);
+        console.log(
+          `Succesfully connected to database: ${HQT_MONGO_DB_URI} 📀`
+        );
       });
 
     app.listen(API_PORT);

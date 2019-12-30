@@ -67,3 +67,12 @@ input ProductReturnInput {
 input ProductFilters {
   limit: Int
 }
+
+input InventoryFilters {
+  limit: Int
+  search: String
+  start: Date
+  end: Date
+  date: Int
+  price: Int
+}

@@ -10,4 +10,15 @@ const GET_PRODUCT_TYPES = gql`
   }
 `;
 
-export {GET_PRODUCT_TYPES};
+const GET_SELLERS = gql`
+  query sellersOnly($filters: SellerFilters!) {
+    sellersOnly(filters: $filters) {
+      id
+      username
+    }
+  }
+`;
+
+export {};
+
+export {GET_PRODUCT_TYPES, GET_SELLERS};

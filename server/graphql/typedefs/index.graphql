@@ -28,6 +28,7 @@ type Query {
   # Seller
   seller(id: ID!): Seller # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   sellers(filters: SellerFilters!): [Seller!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  sellersOnly(filters: SellerFilters!): [Seller!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   sales(filters: SaleFilters!): [SellerResults!]! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # Origin
   origin(id: ID!): Origin # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
@@ -38,7 +39,7 @@ type Query {
   # Product
   product(id: ID!): Product # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   products(filters: ProductFilters!): [Product!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
-  inventory: Inventory! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
+  inventory(filters: InventoryFilters!): Inventory! # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   # ProductType
   productType(id: ID!): ProductType # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])
   productTypes(filters: ProductTypeFilters!): [ProductType!] # @auth(roles: [ADMIN, COLLABORATOR, ARTISAN])

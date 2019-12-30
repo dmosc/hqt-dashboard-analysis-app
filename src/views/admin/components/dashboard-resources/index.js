@@ -10,7 +10,7 @@ class DashboardResources extends Component {
   render() {
     const {collapsed, onCollapse, user} = this.props;
 
-    const ResourceRegisterForm = Form.create({name: 'origin'})(ResourceForm);
+    const ResourceRegisterForm = Form.create({name: 'resource'})(ResourceForm);
 
     return (
       <Layout

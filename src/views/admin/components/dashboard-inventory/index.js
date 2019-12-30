@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import {Link} from 'react-router-dom';
-import {Form, Row, Icon} from 'antd';
+import debounce from 'debounce';
+import moment from 'moment';
+import {Form, Row, Col, DatePicker, Radio, Input, Typography, Icon} from 'antd';
 import {DragDropContext} from 'react-beautiful-dnd';
 import toast from 'toast-me';
 import Layout from 'components/layout/admin';
@@ -19,9 +21,21 @@ import {
   GET_PRODUCT_TYPES,
 } from './graphql/queries';
 
+const {Search} = Input;
+const {Group, Button} = Radio;
+const {Text} = Typography;
+const {RangePicker} = DatePicker;
+
 class DashboardInventory extends Component {
   state = {
     info: {},
+    filters: {
+      search: '',
+      start: null,
+      end: null,
+      date: -1,
+      price: -1,
+    },
     form: 'product',
     currentProductId: '',
     artisans: [],
@@ -32,9 +46,12 @@ class DashboardInventory extends Component {
 
   componentDidMount = () => this.getInventory();
 
-  getInventory = async () => {
+  getInventory = debounce(async () => {
     const {client} = this.props;
-    const {info} = this.state;
+    const {
+      info,
+      filters: {search, start, end, date, price},
+    } = this.state;
 
     try {
       const [
@@ -71,6 +88,9 @@ class DashboardInventory extends Component {
         }),
         client.query({
           query: GET_INVENTORY,
+          variables: {
+            filters: {search, start, end, date, price},
+          },
         }),
       ]);
 
@@ -117,7 +137,7 @@ class DashboardInventory extends Component {
     } catch (e) {
       toast(e, 'error', {duration: 3000, closeable: true});
     }
-  };
+  }, 200);
 
   handleFormType = form => this.setState({form});
 
@@ -204,6 +224,24 @@ class DashboardInventory extends Component {
     this.setState({info});
   };
 
+  handleFilterChange = (key, value) => {
+    const {filters: oldFilters} = this.state;
+
+    const filters = {...oldFilters, [key]: value};
+
+    this.setState({filters}, this.getInventory);
+  };
+
+  handleDateFilterChange = dates => {
+    const {filters: oldFilters} = this.state;
+
+    const start = dates[0];
+    const end = dates[1];
+    const filters = {...oldFilters, start, end};
+
+    this.setState({filters}, this.getInventory);
+  };
+
   render() {
     const {
       info,
@@ -232,6 +270,81 @@ class DashboardInventory extends Component {
         >
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Container width="75%">
+              <Row type="flex" justify="center">
+                <Col span={9}>
+                  <Search
+                    placeholder="Filtrar por código o tipo de producto"
+                    onChange={({target: {value}}) =>
+                      this.handleFilterChange('search', value)
+                    }
+                    style={{width: 250, margin: 5}}
+                  />
+                </Col>
+
+                <Col span={8}>
+                  <RangePicker
+                    style={{margin: 5}}
+                    ranges={{
+                      'De hoy': [moment(), moment()],
+                      'De este mes': [
+                        moment().startOf('month'),
+                        moment().endOf('month'),
+                      ],
+                      'Del mes pasado': [
+                        moment()
+                          .startOf('month')
+                          .subtract(1, 'month'),
+                        moment()
+                          .endOf('month')
+                          .subtract(1, 'month'),
+                      ],
+                    }}
+                    onChange={dates => this.handleDateFilterChange(dates)}
+                  />
+                  <Text style={{margin: 5}} disabled>
+                    Fecha:
+                  </Text>
+                </Col>
+                <Col span={3}>
+                  <Group
+                    style={{margin: 5}}
+                    defaultValue={-1}
+                    onChange={({target: {value}}) =>
+                      this.handleFilterChange('date', value)
+                    }
+                  >
+                    <Button value={1}>
+                      <Icon type="up" />
+                    </Button>
+                    <Button value={-1}>
+                      <Icon type="down" />
+                    </Button>
+                  </Group>
+                  <Text style={{margin: 5}} disabled>
+                    Fecha:
+                  </Text>
+                </Col>
+                <Col span={3}>
+                  <Group
+                    style={{margin: 5}}
+                    defaultValue={-1}
+                    onChange={({target: {value}}) =>
+                      this.handleFilterChange('price', value)
+                    }
+                  >
+                    <Button value={1}>
+                      <Icon type="up" />
+                    </Button>
+                    <Button value={-1}>
+                      <Icon type="down" />
+                    </Button>
+                  </Group>
+                  <Text style={{margin: 5}} disabled>
+                    Precio:
+                  </Text>
+                </Col>
+              </Row>
+
               <Row type="flex" gutter={[40]} justify="center">
                 {(info.columnOrder &&
                   info.columnOrder.map(columnId => {

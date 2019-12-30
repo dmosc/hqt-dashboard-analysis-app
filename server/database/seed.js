@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import {seeder} from '../config/loggers';
-import {MONGO_DB_LOCAL_URI} from '../config';
+import {HQT_MONGO_DB_LOCAL_URI} from '../config';
 import {User, Product, Origin, Location} from './models';
 import users from './seeds/users.json';
 
 const seed = async () => {
-  await mongoose.connect(MONGO_DB_LOCAL_URI, {
+  await mongoose.connect(HQT_MONGO_DB_LOCAL_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,

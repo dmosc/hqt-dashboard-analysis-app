@@ -1,7 +1,7 @@
 {
   "build": {
     "env": {
-      "REACT_APP_SERVER_URI": "@react_app_server_uri",
+      "REACT_APP_HQT_SERVER_URI": "@react_app_hqt_server_uri",
       "REACT_APP_JWT_SECRET": "@react_app_jwt_secret"
     }
   }

@@ -15,21 +15,57 @@ const productQueries = {
     if (!products) throw new ApolloError('No Products registered!');
     else return products;
   },
-  inventory: async () => {
+  inventory: async (
+    _,
+    {filters: {limit, search, start: oldStart, end: oldEnd, date, price}}
+  ) => {
+    const start = oldStart ? new Date(oldStart).setHours(0, 0, 0) : null;
+    const end = oldEnd ? new Date(oldEnd).setHours(23, 59, 59) : null;
+
     const production = await Product.find({
       location: {$exists: false},
       dateSold: {$exists: false},
-    }).populate('artisan origin');
+      dateReceived: {
+        $gte: start || new Date('2019-01-01').setHours(0, 0, 0),
+        $lte: end || new Date('2050-01-01').setHours(23, 59, 59),
+      },
+      $or: [
+        {productName: {$in: [new RegExp(search, 'i')]}},
+        {code: {$in: [new RegExp(search, 'i')]}},
+      ],
+    })
+      .sort({dateReceived: date, retailPrice: price})
+      .populate('artisan origin');
 
     const stock = await Product.find({
       location: {$exists: true},
       dateSold: {$exists: false},
-    }).populate('artisan origin location');
+      dateReceived: {
+        $gte: start || new Date('2019-01-01').setHours(0, 0, 0),
+        $lte: end || new Date('2050-01-01').setHours(23, 59, 59),
+      },
+      $or: [
+        {productName: {$in: [new RegExp(search, 'i')]}},
+        {code: {$in: [new RegExp(search, 'i')]}},
+      ],
+    })
+      .sort({dateReceived: date, retailPrice: price})
+      .populate('artisan origin location');
 
     const dispatched = await Product.find({
       location: {$exists: true},
-      dateSold: {$exists: true},
-    }).populate('artisan origin location seller');
+      dateSold: {
+        $exists: true,
+        $gte: start || new Date('2019-01-01').setHours(0, 0, 0),
+        $lte: end || new Date('2050-01-01').setHours(23, 59, 59),
+      },
+      $or: [
+        {productName: {$in: [new RegExp(search, 'i')]}},
+        {code: {$in: [new RegExp(search, 'i')]}},
+      ],
+    })
+      .sort({dateSold: date, retailPrice: price})
+      .populate('artisan origin location seller');
 
     return {production, stock, dispatched};
   },

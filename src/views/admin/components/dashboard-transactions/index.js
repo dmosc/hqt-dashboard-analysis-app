@@ -67,7 +67,7 @@ class DashboardTransactions extends Component {
         }),
         client.query({
           query: GET_RESULTS,
-          variables: {filters: {start, end}},
+          variables: {filters: {search, start, end, paymentMethods}},
         }),
       ]);
 

@@ -3,18 +3,21 @@ type ProductType {
   id: ID!
   name: String!
   code: String!
+  beneficiary: ID
 }
 
 # Inputs
 input ProductTypeInput {
   name: String!
   code: String!
+  beneficiary: ID
 }
 
 input ProductTypeEdit {
   id: ID!
   name: String
   code: String
+  beneficiary: ID
 }
 
 input ProductTypeFilters {
